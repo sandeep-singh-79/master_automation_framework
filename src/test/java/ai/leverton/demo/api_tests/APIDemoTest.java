@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.when;
+import static org.testng.Assert.assertTrue;
 
 public class APIDemoTest extends BaseAPITest {
     private Response response;
@@ -20,6 +21,6 @@ public class APIDemoTest extends BaseAPITest {
 
     @Test
     public void verifyForCountryInResponse() {
-        response.getBody().jsonPath().getList("name").contains("Canada");
+        assertTrue(response.getBody().jsonPath().getList("name").contains("Canada"));
     }
 }
