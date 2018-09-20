@@ -13,6 +13,7 @@ public abstract class BaseAPITest {
     @BeforeClass
     public void setup(){
         RestAssured.baseURI = config.getProperty("baseUrl");
+        RestAssured.port = Integer.valueOf(config.getProperty("basePort", "80"));
         RestAssured.basePath = config.getProperty("basePath");
     }
 
