@@ -1,6 +1,6 @@
-package ai.leverton.demo.driver;
+package com.sandeep.driver;
 
-import ai.leverton.demo.exception.NoSuchDriverException;
+import com.sandeep.exception.NoSuchDriverException;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;

@@ -1,4 +1,4 @@
-package ai.leverton.demo.util.api;
+package com.sandeep.util.api;
 
 public enum EndPoints {
     v1("v1");

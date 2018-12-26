@@ -1,4 +1,4 @@
-package ai.leverton.demo.exception;
+package com.sandeep.exception;
 
 public class NoSuchDriverException extends Exception {
     public NoSuchDriverException(String exception) {super(exception);}

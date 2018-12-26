@@ -1,4 +1,4 @@
-package ai.leverton.demo.config;
+package com.sandeep.config;
 
 import java.io.File;
 import java.util.Properties;

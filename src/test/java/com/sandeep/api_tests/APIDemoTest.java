@@ -1,7 +1,7 @@
-package ai.leverton.demo.api_tests;
+package com.sandeep.api_tests;
 
-import ai.leverton.demo.base.BaseAPITest;
-import ai.leverton.demo.util.api.EndPoints;
+import com.sandeep.base.BaseAPITest;
+import com.sandeep.util.api.EndPoints;
 import io.restassured.response.Response;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

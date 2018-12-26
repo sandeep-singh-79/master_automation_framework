@@ -1,6 +1,6 @@
-package ai.leverton.demo.base;
+package com.sandeep.base;
 
-import ai.leverton.demo.config.FrameworkConfig;
+import com.sandeep.config.FrameworkConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

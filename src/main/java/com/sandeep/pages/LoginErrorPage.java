@@ -1,12 +1,11 @@
-package ai.leverton.demo.pages;
+package com.sandeep.pages;
 
-import ai.leverton.demo.base.BasePageObject;
-import ai.leverton.demo.config.FrameworkConfig;
+import com.sandeep.base.BasePageObject;
+import com.sandeep.config.FrameworkConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 
 import java.util.Properties;
 

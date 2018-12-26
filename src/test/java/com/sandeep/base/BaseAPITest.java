@@ -1,6 +1,6 @@
-package ai.leverton.demo.base;
+package com.sandeep.base;
 
-import ai.leverton.demo.config.FrameworkConfig;
+import com.sandeep.config.FrameworkConfig;
 import io.restassured.RestAssured;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

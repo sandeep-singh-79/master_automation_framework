@@ -3,13 +3,13 @@
 <suite name="Suite1" verbose="1" >
     <test name="Functional - Login Test">
         <classes>
-            <class name="ai.leverton.demo.functional_tests.LoginTest"/>
+            <class name="com.sandeep.functional_tests.LoginTest"/>
         </classes>
     </test>
 
     <test name="API Tests - Verify Country">
         <classes>
-            <class name="ai.leverton.demo.api_tests.APIDemoTest" />
+            <class name="com.sandeep.api_tests.APIDemoTest" />
         </classes>
     </test>
 </suite>

@@ -1,8 +1,8 @@
-package ai.leverton.demo.functional_tests;
+package com.sandeep.functional_tests;
 
-import ai.leverton.demo.base.BaseTestNGTest;
-import ai.leverton.demo.pages.LoginErrorPage;
-import ai.leverton.demo.pages.LoginPage;
+import com.sandeep.base.BaseTestNGTest;
+import com.sandeep.pages.LoginErrorPage;
+import com.sandeep.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;

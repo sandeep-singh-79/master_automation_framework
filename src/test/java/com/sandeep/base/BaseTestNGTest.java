@@ -1,14 +1,13 @@
-package ai.leverton.demo.base;
+package com.sandeep.base;
 
-import ai.leverton.demo.config.FrameworkConfig;
-import ai.leverton.demo.driver.WebDriverFactory;
+import com.sandeep.config.FrameworkConfig;
+import com.sandeep.driver.WebDriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 import static java.lang.Integer.parseInt;
 

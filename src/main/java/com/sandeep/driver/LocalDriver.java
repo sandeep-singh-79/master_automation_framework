@@ -1,4 +1,4 @@
-package ai.leverton.demo.driver;
+package com.sandeep.driver;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +8,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 class LocalDriver extends Driver {
     LocalDriver() { super(); }
@@ -19,7 +18,7 @@ class LocalDriver extends Driver {
     }
 
     /**
-     * @see ai.leverton.demo.driver.Driver#createDriver()
+     * @see Driver#createDriver()
      * Creates an instance of a browser webdriver based on
      * the browser name stored in the framework config file.
      */
