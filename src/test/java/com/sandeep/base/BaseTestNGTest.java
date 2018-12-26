@@ -2,6 +2,7 @@ package com.sandeep.base;
 
 import com.sandeep.config.FrameworkConfig;
 import com.sandeep.driver.WebDriverFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
@@ -11,6 +12,7 @@ import java.util.Properties;
 
 import static java.lang.Integer.parseInt;
 
+@Slf4j
 public abstract class BaseTestNGTest {
     private WebDriverFactory driverFactory;
 

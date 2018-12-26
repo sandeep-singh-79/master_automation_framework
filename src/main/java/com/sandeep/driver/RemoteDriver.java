@@ -1,6 +1,7 @@
 package com.sandeep.driver;
 
 import com.sandeep.exception.NoSuchDriverException;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -10,6 +11,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+@Slf4j
 class RemoteDriver extends Driver {
     RemoteDriver() {
         super();

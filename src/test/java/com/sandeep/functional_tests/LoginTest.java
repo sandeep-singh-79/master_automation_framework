@@ -3,6 +3,7 @@ package com.sandeep.functional_tests;
 import com.sandeep.base.BaseTestNGTest;
 import com.sandeep.pages.LoginErrorPage;
 import com.sandeep.pages.LoginPage;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
@@ -12,6 +13,7 @@ import org.testng.annotations.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
+@Slf4j
 public class LoginTest extends BaseTestNGTest {
     private LoginPage loginPage;
     private LoginErrorPage loginErrorPage;

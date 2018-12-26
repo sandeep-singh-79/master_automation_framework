@@ -1,8 +1,11 @@
 package com.sandeep.config;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.util.Properties;
 
+@Slf4j
 public class FrameworkConfig {
     private static volatile FrameworkConfig instance = new FrameworkConfig();
     private Properties frameworkProperties;

@@ -3,12 +3,14 @@ package com.sandeep.api_tests;
 import com.sandeep.base.BaseAPITest;
 import com.sandeep.util.api.EndPoints;
 import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.when;
 import static org.testng.Assert.assertTrue;
 
+@Slf4j
 public class APIDemoTest extends BaseAPITest {
     private Response response;
 

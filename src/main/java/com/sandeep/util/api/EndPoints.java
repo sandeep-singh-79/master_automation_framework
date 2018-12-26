@@ -1,5 +1,8 @@
 package com.sandeep.util.api;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public enum EndPoints {
     v1("v1");
 

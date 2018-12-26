@@ -1,6 +1,7 @@
 package com.sandeep.base;
 
 import com.sandeep.config.FrameworkConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -15,10 +16,10 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.Integer.parseInt;
 
+@Slf4j
 public abstract class BasePageObject {
     protected WebDriver driver;
     protected WebDriverWait wait;
-
     protected AjaxElementLocatorFactory ajaxElementLocatorFactory;
 
     private Properties config;

@@ -2,11 +2,13 @@ package com.sandeep.base;
 
 import com.sandeep.config.FrameworkConfig;
 import io.restassured.RestAssured;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import java.util.Properties;
 
+@Slf4j
 public abstract class BaseAPITest {
     protected Properties config = FrameworkConfig.getInstance().getConfigProperties();
 
