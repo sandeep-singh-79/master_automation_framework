@@ -1,37 +1,36 @@
 package ai.leverton.demo.pages;
 
 import ai.leverton.demo.base.BasePageObject;
+import ai.leverton.demo.config.FrameworkConfig;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import java.util.Properties;
+
+import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class LoginPage extends BasePageObject {
-    By txtUsername = By.id("username");
-    By txtPassword = By.name("j_password");
-    By loginBtn = By.xpath("//*[@type='submit' and @value='Log In']");
-
+    @FindBy(id = "username")
     private WebElement usernameTxt;
+    @FindBy(name = "j_password")
     private WebElement passwordTxt;
+    @FindBy(css = "input.secondary-btn.btn")
     private WebElement btnLogin;
 
     public LoginPage(WebDriver driver) {
-        super(driver);
+        this(driver, FrameworkConfig.getInstance().getConfigProperties());
+    }
 
-        try {
-            usernameTxt = driver.findElement(txtUsername);
-            passwordTxt = driver.findElement(txtPassword);
-            btnLogin = driver.findElement(loginBtn);
-        } catch (NoSuchElementException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public LoginPage(WebDriver driver, Properties config) {
+        super(driver, config);
+        initElements(ajaxElementLocatorFactory, this);
     }
 
     @Override
     protected By getUniqueElement() {
-        return By.id("username");
+        return By.className("forgot-link");
     }
 
     public LoginErrorPage attemptSignIn(String username, String password) {
