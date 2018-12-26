@@ -16,32 +16,27 @@ public abstract class BaseTestNGTest {
     private WebDriverFactory driverFactory;
 
     protected WebDriver driver;
-    protected Properties config = new FrameworkConfig().getConfigProperties();
+    protected Properties config;
 
     @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext testContext) throws Exception {
+    public void beforeClass(ITestContext testContext) {
         // create a WebDriver instance on the basis of the settings
         // provided in framework config properties file
-        driverFactory = new WebDriverFactory();
-        driver = driverFactory.getDriver(config.getProperty("DRIVERTYPE"));
+        config = FrameworkConfig.getInstance().getConfigProperties();
+        driverFactory = WebDriverFactory.getInstance();
+        driver = driverFactory.getDriver(System.getProperty("driverType", config.getProperty("DRIVERTYPE")));
 
-        driver.manage().timeouts().implicitlyWait(parseInt(config.getProperty("IMPLICITWAIT_TIMEOUT")),
-                TimeUnit.MILLISECONDS);
+        driver.manage().window().maximize();
 
         testContext.setAttribute("driver", driver);
     }
 
     protected void loadApplication() {
-        driver.manage().window().maximize();
-
         driver.get(config.getProperty("url"));
     }
 
     @AfterClass(alwaysRun=true)
     public void afterClass() {
-        if(driver != null) {
-            driver.close();
-            driver.quit();
-        }
+        driverFactory.closeDriver();
     }
 }

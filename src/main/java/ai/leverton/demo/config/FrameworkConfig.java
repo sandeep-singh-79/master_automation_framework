@@ -4,17 +4,24 @@ import java.io.File;
 import java.util.Properties;
 
 public class FrameworkConfig {
+    private static volatile FrameworkConfig instance = new FrameworkConfig();
     private Properties frameworkProperties;
 
-    public FrameworkConfig() {
-        this(new File(System.getProperty("user.dir")+"/src/main/resources/frameworkConfig.properties"));
+    private FrameworkConfig() {
+        frameworkProperties = new PropertyReader(new File(String
+                .format("%s/src/main/resources/frameworkConfig.properties", System.getProperty("user.dir"))))
+                .getPropertyFile();
     }
 
-    public FrameworkConfig(File file) {
-        frameworkProperties = new PropertyReader(file).getPropertyFile();
+    public static FrameworkConfig getInstance() {
+        return instance;
     }
 
     public Properties getConfigProperties() {
         return frameworkProperties;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException(String.format("Cloning not allowed for %s class", FrameworkConfig.class));
     }
 }

@@ -4,25 +4,45 @@ import ai.leverton.demo.config.FrameworkConfig;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import static java.lang.Integer.parseInt;
 
 public abstract class BasePageObject {
     protected WebDriver driver;
     protected WebDriverWait wait;
 
-    private Properties config = new FrameworkConfig().getConfigProperties();
+    protected AjaxElementLocatorFactory ajaxElementLocatorFactory;
+
+    private Properties config;
 
     public BasePageObject(WebDriver driver) {
+        this(driver, FrameworkConfig.getInstance().getConfigProperties());
+    }
+
+    public BasePageObject(WebDriver driver, Properties config) {
         this.driver = driver;
-        wait = new WebDriverWait(this.driver, Integer.parseInt(config.getProperty("WEBDRIVERWAIT_TIMEOUT")),
-                Integer.parseInt(config.getProperty("WEBDRIVERWAIT_POLL")));
+        this.config = config;
+        wait = new WebDriverWait(driver, parseInt(config.getProperty("WEBDRIVERWAIT_TIMEOUT")),
+                parseInt(config.getProperty("WEBDRIVERWAIT_POLL")));
+        ajaxElementLocatorFactory = new AjaxElementLocatorFactory(driver, parseInt(config.getProperty("LOCATOR_FACTORY_TIMEOUT")));
+        setTimeouts();
 
         isLoaded();
+    }
+
+    private void setTimeouts() {
+        driver.manage().timeouts().implicitlyWait(parseInt(config.getProperty("IMPLICITWAIT_TIMEOUT")),
+                TimeUnit.MILLISECONDS);
+        driver.manage().timeouts().pageLoadTimeout(parseInt(config.getProperty("PAGE_LOAD_TIMEOUT")),
+                TimeUnit.MILLISECONDS);
     }
 
     /**

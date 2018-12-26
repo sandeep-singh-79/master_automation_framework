@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeClass;
 import java.util.Properties;
 
 public abstract class BaseAPITest {
-    protected Properties config = new FrameworkConfig().getConfigProperties();
+    protected Properties config = FrameworkConfig.getInstance().getConfigProperties();
 
     @BeforeClass
     public void setup(){
