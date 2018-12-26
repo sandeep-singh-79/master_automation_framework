@@ -1,24 +1,28 @@
 package ai.leverton.demo.driver;
 
-import ai.leverton.demo.config.PropertyReader;
+import ai.leverton.demo.config.FrameworkConfig;
 import ai.leverton.demo.exception.NoSuchDriverException;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 
-import java.io.File;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
+
+import static java.lang.Integer.parseInt;
 
 abstract class Driver {
     protected WebDriver driver;
+    protected String browser = null;
+    protected Platform platform = null;
+    protected String version = null;
+    protected String serverAddress = null;
+    protected int serverPort = 4444;
+
     protected Properties config;
 
-    public Driver() {
-        this(new File(System.getProperty("user.dir")+"/src/main/resources/frameworkConfig.properties"));
+    Driver() {
+        config = FrameworkConfig.getInstance().getConfigProperties();
     }
 
-    public Driver(File propertiesFile) {
-        config = new PropertyReader(propertiesFile).getPropertyFile();
-    }
-
-    public abstract WebDriver createDriver() throws NoSuchDriverException;
-
+    abstract WebDriver createDriver() throws NoSuchDriverException;
 }

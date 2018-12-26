@@ -10,16 +10,23 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class RemoteDriver extends Driver {
-    public RemoteDriver() { super(); }
+class RemoteDriver extends Driver {
+    RemoteDriver() {
+        super();
+    }
+
+    RemoteDriver(String browser, String serverAddress, int serverPort, Platform platform, String version) {
+        this();
+
+        this.browser = browser;
+        this.serverAddress = serverAddress;
+        this.serverPort = serverPort;
+        this.platform = platform;
+        this.version = version;
+    }
 
     @Override
     public WebDriver createDriver() throws NoSuchDriverException {
-        String browser = config.getProperty("BROWSER");
-        String hostAddress = config.getProperty("remote.ip");
-        int hostPort = Integer.parseInt(config.getProperty("remote.port"));
-        Platform platform = Platform.valueOf(config.getProperty("remote.platform"));
-        String version = config.getProperty("remote.version");
         DesiredCapabilities capabilities;
 
         if(driver == null) {
@@ -38,7 +45,7 @@ public class RemoteDriver extends Driver {
             capabilities.setPlatform(platform);
             try {
                 driver = (new RemoteWebDriver(
-                        new URL("http://"+hostAddress+":"+hostPort+"/wd/hub"), capabilities));
+                        new URL("http://"+serverAddress+":"+serverPort+"/wd/hub"), capabilities));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

@@ -10,8 +10,13 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class LocalDriver extends Driver {
-    public LocalDriver() { super(); }
+class LocalDriver extends Driver {
+    LocalDriver() { super(); }
+
+    LocalDriver(String browser) {
+        this();
+        this.browser = browser;
+    }
 
     /**
      * @see ai.leverton.demo.driver.Driver#createDriver()
@@ -20,26 +25,24 @@ public class LocalDriver extends Driver {
      */
     @Override
     public WebDriver createDriver() {
-        String browser = config.getProperty("BROWSER").toLowerCase();
-
-        DesiredCapabilities sslError = new DesiredCapabilities();
-        sslError.setAcceptInsecureCerts(true);
+        /*DesiredCapabilities sslError = new DesiredCapabilities();
+        sslError.setAcceptInsecureCerts(true);*/
 
         if (driver == null) {
             if(browser.contains("chrome")) {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
-                options.merge(sslError);
+                //options.merge(sslError);
                 driver = new ChromeDriver(options);
             } else if(browser.contains("firefox") || browser.contains("ff")) {
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions options = new FirefoxOptions();
-                options.merge(sslError);
+                //options.merge(sslError);
                 driver = new FirefoxDriver(options);
             } else if(System.getProperty("os.name").indexOf("win")==0 && (browser.contains("iexplore") || browser.contains("internet"))) {
                 WebDriverManager.iedriver().setup();
                 InternetExplorerOptions options = new InternetExplorerOptions();
-                options.merge(sslError);
+                //options.merge(sslError);
                 driver = new InternetExplorerDriver(options);
             }
         }
