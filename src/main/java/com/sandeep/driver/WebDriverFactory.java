@@ -90,8 +90,8 @@ public final class WebDriverFactory {
 
     public void closeDriver() {
         if(driver.get() != null) {
-            driver.get().close();
             driver.get().quit();
+            driver = null;
         }
     }
 
