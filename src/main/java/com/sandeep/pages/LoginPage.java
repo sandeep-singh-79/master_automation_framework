@@ -20,6 +20,9 @@ public class LoginPage extends BasePageObject {
     private WebElement passwordTxt;
     @FindBy(css = "input.secondary-btn.btn")
     private WebElement btnLogin;
+    @FindBy(className = "forgot-link")
+    private WebElement lnkForgotPassword;
+
 
     public LoginPage(WebDriver driver) {
         this(driver, FrameworkConfig.getInstance().getConfigProperties());
@@ -41,5 +44,11 @@ public class LoginPage extends BasePageObject {
         btnLogin.click();
 
         return new LoginErrorPage(driver);
+    }
+
+    public ForgotPasswordPage navigateToLostPassword() {
+        lnkForgotPassword.click();
+
+        return new ForgotPasswordPage(driver);
     }
 }
