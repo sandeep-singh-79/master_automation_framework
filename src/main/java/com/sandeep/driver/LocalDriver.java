@@ -33,6 +33,7 @@ class LocalDriver extends Driver {
             if(browser.contains("chrome")) {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
+                options.addArguments("disable-infobars");
                 //options.merge(sslError);
                 driver = new ChromeDriver(options);
             } else if(browser.contains("firefox") || browser.contains("ff")) {
