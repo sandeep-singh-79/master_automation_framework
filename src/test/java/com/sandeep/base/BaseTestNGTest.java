@@ -6,11 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 
 import java.util.Properties;
-
-import static java.lang.Integer.parseInt;
 
 @Slf4j
 public abstract class BaseTestNGTest {
@@ -19,8 +19,8 @@ public abstract class BaseTestNGTest {
     protected WebDriver driver;
     protected Properties config;
 
-    @BeforeClass(alwaysRun = true)
-    public void beforeClass(ITestContext testContext) {
+    @BeforeTest(alwaysRun = true)
+    public void initTest(ITestContext testContext) {
         // create a WebDriver instance on the basis of the settings
         // provided in framework config properties file
         config = FrameworkConfig.getInstance().getConfigProperties();
@@ -36,8 +36,8 @@ public abstract class BaseTestNGTest {
         driver.get(config.getProperty("url"));
     }
 
-    @AfterClass(alwaysRun=true)
-    public void afterClass() {
+    @AfterTest(alwaysRun=true)
+    public void teardownTest() {
         driverFactory.closeDriver();
     }
 }
