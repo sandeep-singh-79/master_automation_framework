@@ -6,10 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 
+import java.io.Serializable;
 import java.util.Properties;
 
 @Slf4j
-public final class WebDriverFactory {
+public final class WebDriverFactory implements Serializable, Cloneable {
     private static WebDriverFactory instance;
     private WebDriver localDriverInstance, remoteDriverInstance;
     private ThreadLocal<WebDriver> driver;
@@ -95,9 +96,14 @@ public final class WebDriverFactory {
         }
     }
 
+    @Override
     public Object clone() throws CloneNotSupportedException {
-        /*log.info("Not allowed to clone the current class");
-        log.info("throwing CloneNotSupportedException for your pains ...");*/
+        log.info("Not allowed to clone the current class");
+        log.info("throwing CloneNotSupportedException for your pains ...");
         throw new CloneNotSupportedException(String.format("Cloning not allowed for %s class", WebDriverFactory.class));
+    }
+
+    public Object readResolve() {
+        return instance;
     }
 }
