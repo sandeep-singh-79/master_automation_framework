@@ -31,7 +31,7 @@ public abstract class BaseTestNGTest {
     }
 
     protected void loadApplication() {
-        driver.get(config.getProperty("url"));
+        driver.get(config.getProperty("url_dev"));
     }
 
     @AfterTest(alwaysRun=true)
