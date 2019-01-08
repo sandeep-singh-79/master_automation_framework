@@ -14,6 +14,7 @@
         <wdm.version>LATEST</wdm.version>
         <slf4j.version>LATEST</slf4j.version>
         <restassured.version>LATEST</restassured.version>
+        <cucumber.version>4.2.0</cucumber.version>
     </properties>
 
     <dependencies>
@@ -64,6 +65,37 @@
             <version>1.16.16</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>gherkin</artifactId>
+            <version>4.1.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports-cucumber4-adapter</artifactId>
+            <version>1.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>4.0.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -75,9 +107,9 @@
                 <configuration>
                     <argLine>-Xmx1024m</argLine>
                     <argLine>-XX:MaxPermSize=500M</argLine>
-                    <suiteXmlFiles>
+                    <!--<suiteXmlFiles>
                         <file>./src/test/resources/testng.xml</file>
-                    </suiteXmlFiles>
+                    </suiteXmlFiles>-->
                 </configuration>
             </plugin>
             <plugin>
