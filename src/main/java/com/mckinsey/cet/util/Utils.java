@@ -23,16 +23,24 @@ public class Utils {
     }
 
     public static String getTimeStamp() {
-        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        return (getTimeStamp("dd-MMM-yyyy HH:mm:ss").replaceAll(" ", ""));
+    }
+
+    public static String getTimeStamp(String dateFormat) {
+        DateFormat df = new SimpleDateFormat(dateFormat);
         Date dateobj = new Date();
-        return (df.format(dateobj).replaceAll(" ", ""));
+        return (df.format(dateobj));
     }
 
     public static File take_screenshot(WebDriver driver, ITestResult testResult) throws NullPointerException {
+        return take_screenshot(driver, testResult.getMethod().getMethodName());
+    }
+
+    public static File take_screenshot (WebDriver driver, final String method_name) {
         if (driver == null) return null;
         if (driver != null) {
             TakesScreenshot screenshot = (TakesScreenshot) driver;
-            File screenshotFile = create_screenshot_File(testResult,
+            File screenshotFile = create_screenshot_File(method_name,
                     createDirectory(String.format("%s/Screenshots/%s", System.getProperty("user.dir"), getDate())));
             try {
                 copyFile(screenshot.getScreenshotAs(OutputType.FILE), screenshotFile);
@@ -46,8 +54,8 @@ public class Utils {
         return null;
     }
 
-    private static File create_screenshot_File(ITestResult testResult, File screenshotDir) {
-        return new File(String.format("%s/%s%s.png", screenshotDir.getPath(), testResult.getMethod().getMethodName(), Utils.getTimeStamp()));
+    private static File create_screenshot_File(final String method_name, final File screenshot_dir) {
+        return new File(String.format("%s/%s%s.png", screenshot_dir.getPath(), method_name, Utils.getTimeStamp("dd-MM-yyyy_HH_mm_ss")));
     }
 
     private static File createDirectory(String directoryPath) {
