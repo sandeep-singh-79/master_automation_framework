@@ -3,18 +3,18 @@
 <suite name="Suite1" verbose="1" >
     <listeners>
         <!--<listener class-name="RetryListener" />-->
-        <listener class-name="com.sandeep.listeners.ScreenshotListener" />
+        <listener class-name="com.mckinsey.listeners.ScreenshotListener" />
     </listeners>
 
     <test name="Functional - Login Test">
         <classes>
-            <class name="com.sandeep.functional_tests.LoginTest"/>
+            <class name="com.mckinsey.functional_tests.LoginTest"/>
         </classes>
     </test>
 
     <test name="API Tests - Verify Country">
         <classes>
-            <class name="com.sandeep.api_tests.APIDemoTest" />
+            <class name="com.mckinsey.api_tests.APIDemoTest" />
         </classes>
     </test>
 </suite>
