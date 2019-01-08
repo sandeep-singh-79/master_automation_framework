@@ -61,7 +61,7 @@ public abstract class BasePageObject {
 
         // Assert that the unique element is present in the DOM
         Assert.assertTrue((uniqueElement.size() > 0),
-                "Unique Element \'${uniqElement.toString()}\' not found for ${this.class.simpleName}");
+                String.format("Unique Element %s not found for %s", uniqElement.toString(), this.getClass().getSimpleName()));
 
         // Wait until the unique element is visible in the browser and ready to use. This helps make sure the page is
         // loaded before the next step of the tests continue.
