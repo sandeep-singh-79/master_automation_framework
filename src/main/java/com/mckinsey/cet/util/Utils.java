@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,24 +37,24 @@ public class Utils {
 
     public static File take_screenshot (WebDriver driver, final String method_name) {
         if (driver == null) return null;
-        if (driver != null) {
-            TakesScreenshot screenshot = (TakesScreenshot) driver;
-            File screenshotFile = create_screenshot_File(method_name,
-                    createDirectory(String.format("%s/Screenshots/%s", System.getProperty("user.dir"), getDate())));
-            try {
-                copyFile(screenshot.getScreenshotAs(OutputType.FILE), screenshotFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            return screenshotFile;
+        File screenshotFile = null;
+        try {
+            TakesScreenshot screenshot = (TakesScreenshot) driver;
+            screenshotFile = create_screenshot_file(method_name,
+                    createDirectory(String.format("%s/Screenshots/%s", System.getProperty("user.dir"), getDate())));
+            copyFile(screenshot.getScreenshotAs(OutputType.FILE), screenshotFile);
+        } catch (Exception ioe) {
+            log.error("Encountered issue while creating screenshot for method/scenario {}", method_name);
+            log.error("This was caused by {}", ioe.getCause());
+            log.error(String.valueOf(ioe.getStackTrace()));
         }
 
-        return null;
+        return screenshotFile;
     }
 
-    private static File create_screenshot_File(final String method_name, final File screenshot_dir) {
-        return new File(String.format("%s/%s%s.png", screenshot_dir.getPath(), method_name, Utils.getTimeStamp("dd-MM-yyyy_HH_mm_ss")));
+    private static File create_screenshot_file (final String method_name, final File screenshot_dir) {
+        return new File(String.format("%s/%s_%s.png", screenshot_dir.getPath(), method_name, Utils.getTimeStamp("dd-MM-yyyy_HH_mm_ss")));
     }
 
     private static File createDirectory(String directoryPath) {
