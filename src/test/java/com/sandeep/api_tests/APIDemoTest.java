@@ -1,7 +1,7 @@
 package com.sandeep.api_tests;
 
 import com.sandeep.base.BaseAPITest;
-import com.sandeep.util.api.EndPoints;
+import com.sandeep.base.api.EndPoints;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.BeforeMethod;
