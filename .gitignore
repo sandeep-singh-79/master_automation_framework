@@ -113,7 +113,7 @@ buildNumber.properties
 .idea_modules/
 
 # ignore screenshots and screenshot folder
-/screenshots/
+/Screenshots/
 
 ## ignore log files
 *.log
