@@ -41,7 +41,7 @@ public class RunCukesTests extends AbstractTestNGCucumberTests {
 
     @AfterClass
     public void tearDown () {
-        driverFactory.closeDriver();
+        //driverFactory.closeDriver();
     }
 
     @DataProvider

@@ -107,9 +107,9 @@
                 <configuration>
                     <argLine>-Xmx1024m</argLine>
                     <argLine>-XX:MaxPermSize=500M</argLine>
-                    <!--<suiteXmlFiles>
+                    <suiteXmlFiles>
                         <file>./src/test/resources/testng.xml</file>
-                    </suiteXmlFiles>-->
+                    </suiteXmlFiles>
                 </configuration>
             </plugin>
             <plugin>
