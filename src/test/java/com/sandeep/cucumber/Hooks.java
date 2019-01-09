@@ -17,11 +17,10 @@ import java.util.Properties;
 public class Hooks {
     private TestContext testContext;
     private WebDriver driver;
-    private Properties config;
 
     public Hooks(TestContext context) {
         testContext = context;
-        config = FrameworkConfig.getInstance().getConfigProperties();
+        Properties config = FrameworkConfig.getInstance().getConfigProperties();
         driver = context.getWebDriverManager().getDriver(config.getProperty("DRIVERTYPE", "local"));
     }
 
