@@ -1,6 +1,5 @@
 package com.sandeep.base.api;
 
-import io.restassured.RestAssured;
 import io.restassured.authentication.BasicAuthScheme;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.builder.RequestSpecBuilder;
@@ -8,8 +7,6 @@ import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
-
-import java.net.URI;
 
 import static io.restassured.RestAssured.given;
 

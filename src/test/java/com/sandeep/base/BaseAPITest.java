@@ -3,7 +3,6 @@ package com.sandeep.base;
 import com.sandeep.base.api.ApiBase;
 import com.sandeep.config.FrameworkConfig;
 import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.AfterClass;

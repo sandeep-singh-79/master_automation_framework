@@ -1,7 +1,7 @@
 package com.sandeep.pages;
 
-import com.sandeep.config.FrameworkConfig;
 import com.sandeep.base.BasePageObject;
+import com.sandeep.config.FrameworkConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

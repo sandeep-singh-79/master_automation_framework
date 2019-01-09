@@ -1,7 +1,7 @@
 package com.sandeep.driver;
 
-import com.sandeep.exception.NoSuchDriverException;
 import com.sandeep.config.FrameworkConfig;
+import com.sandeep.exception.NoSuchDriverException;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
