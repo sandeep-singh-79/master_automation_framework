@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public enum EndPoints {
-    v1("v1");
+    USERS("users");
 
     private String value;
 
