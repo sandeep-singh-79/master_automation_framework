@@ -2,9 +2,7 @@ package com.sandeep.cucumber;
 
 import com.sandeep.config.FrameworkConfig;
 import com.sandeep.cucumber.context.TestContext;
-import com.sandeep.cucumber.enums.Context;
 import com.sandeep.driver.WebDriverFactory;
-import com.sandeep.pages.LoginPage;
 import cucumber.api.CucumberOptions;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,7 @@ import java.util.Properties;
 
 @CucumberOptions(
         features = "src/main/resources/features",
-        glue = {"com.sandeep.cucumber.stepdefinitions"},
+        glue = {"com.sandeep.cucumber"},
         /*tags = {"@P1"},*/
         plugin = {
                 "pretty", "html:target/cucumber-reports",
@@ -33,13 +31,11 @@ public class RunCukesTests extends AbstractTestNGCucumberTests {
     private String driver_type;
     private String browser;
     private Properties config;
-    private WebDriver driver;
-    private String environment_url;
 
     @BeforeClass
     public void setup() {
         initialize_runner_elements();
-        environment_url = launch_browser();
+        String environment_url = launch_browser();
         testContext.getScenarioContext().setContext("url", environment_url);
     }
 
@@ -48,7 +44,7 @@ public class RunCukesTests extends AbstractTestNGCucumberTests {
         driverFactory.closeDriver();
     }
 
-    @DataProvider(parallel = true)
+    @DataProvider
     @Override
     public Object[][] scenarios() {
         return super.scenarios();
@@ -64,7 +60,7 @@ public class RunCukesTests extends AbstractTestNGCucumberTests {
 
     private String launch_browser () {
         log.info("Driver {} created for browser {}", driver_type.toUpperCase(), browser.toUpperCase());
-        driver = driverFactory.getDriver(driver_type);
+        WebDriver driver = driverFactory.getDriver(driver_type);
         driver.manage().window().maximize();
         return config.getProperty(System.getProperty("env", "dev")
                                           .equalsIgnoreCase("dev")?"url_dev":"url_qa");
