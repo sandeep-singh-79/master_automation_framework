@@ -19,14 +19,13 @@ public class APIDemoTest extends BaseAPITest {
         try {
             response = apiBase.get_response(Method.GET, EndPoints.USERS).andReturn();
         } catch (NullPointerException e) {
-            log.error("Unable to initialize Reponse object as null was returned!");
+            log.error("Unable to initialize Response object as null was returned!");
         }
     }
 
     @Test
     public void verifyForCountryInResponse() {
         response.then().statusCode(200);
-        response.then().log().everything();
         assertTrue(response.getBody().jsonPath().getList("data.first_name").contains("George"));
     }
 }
