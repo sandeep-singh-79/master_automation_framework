@@ -24,7 +24,7 @@ public class APIDemoTest extends BaseAPITest {
     }
 
     @Test
-    public void verifyForCountryInResponse() {
+    public void verifyForFirstNameInResponse() {
         response.then().statusCode(200);
         assertTrue(response.getBody().jsonPath().getList("data.first_name").contains("George"));
     }
