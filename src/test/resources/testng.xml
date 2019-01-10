@@ -4,6 +4,7 @@
     <listeners>
         <!--<listener class-name="RetryListener" />-->
         <listener class-name="com.sandeep.listeners.ScreenshotListener" />
+        <listener class-name="com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter" />
     </listeners>
 
     <test name="Functional - Login Test">
@@ -13,7 +14,7 @@
         </classes>
     </test>
 
-    <test name="API Tests - Verify Country">
+    <test name="API Tests">
         <classes>
             <class name="com.sandeep.api_tests.APIDemoTest" />
         </classes>
