@@ -18,9 +18,9 @@ import java.util.Properties;
         glue = {"com.sandeep.cucumber"},
         /*tags = {"@P1"},*/
         plugin = {
-                "pretty", "html:target/cucumber-reports",
-                "junit:target/cucumber-reports/Cucumber.xml",
-                "json:target/cucumber-reports/Cucumber.json",
+                "pretty", "html:target/reports/cucumber",
+                "junit:target/reports/cucumber/Cucumber.xml",
+                "json:target/reports/cucumber/Cucumber.json",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"},
         monochrome = true
 )
