@@ -12,7 +12,7 @@ import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ApiBase {
+public final class ApiBase {
     private RequestSpecification requestSpecification;
     private RequestSpecBuilder specBuilder;
 
@@ -58,7 +58,7 @@ public class ApiBase {
         return this;
     }
 
-    private ApiBase set_body (final String body) {
+    public ApiBase set_body(final String body) {
         specBuilder.setBody(body);
         return this;
     }
