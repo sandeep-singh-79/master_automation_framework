@@ -43,18 +43,22 @@ public class ApiBase {
         return this;
     }
 
-    public ApiBase set_oauth2_token_and_json_body (final String token, final String json_body) {
+    public ApiBase set_oauth2_token_contentType_and_body (final String token, final ContentType contentType, final String body) {
         OAuth2Scheme authScheme = new OAuth2Scheme();
         authScheme.setAccessToken(token);
-        return set_auth_scheme(authScheme).set_content_type(ContentType.JSON).set_body(json_body);
+        return set_auth_scheme(authScheme).set_contentType_and_body(contentType, body);
     }
 
-    public ApiBase set_content_type(final ContentType content_type) {
+    public ApiBase set_contentType_and_body (final ContentType contentType, final String body) {
+        return set_content_type(contentType).set_body(body);
+    }
+
+    private ApiBase set_content_type(final ContentType content_type) {
         specBuilder.setContentType(content_type.toString());
         return this;
     }
 
-    public ApiBase set_body(final String body) {
+    private ApiBase set_body (final String body) {
         specBuilder.setBody(body);
         return this;
     }
@@ -66,7 +70,7 @@ public class ApiBase {
     }
 
     public RequestSpecification build_request_spec() {
-        requestSpecification = specBuilder.build().given();
+        requestSpecification = specBuilder.build();
         return requestSpecification;
     }
 
