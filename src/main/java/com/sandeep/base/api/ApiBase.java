@@ -1,14 +1,15 @@
 package com.sandeep.base.api;
 
+import io.restassured.authentication.AuthenticationScheme;
 import io.restassured.authentication.BasicAuthScheme;
+import io.restassured.authentication.OAuth2Scheme;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
-
-import static io.restassured.RestAssured.given;
 
 @Slf4j
 public class ApiBase {
@@ -23,8 +24,13 @@ public class ApiBase {
         PreemptiveBasicAuthScheme authScheme = new PreemptiveBasicAuthScheme();
         authScheme.setUserName(user);
         authScheme.setPassword(password);
-        specBuilder.setAuth(authScheme);
+        set_auth_scheme(authScheme);
 
+        return this;
+    }
+
+    private ApiBase set_auth_scheme (AuthenticationScheme authScheme) {
+        specBuilder.setAuth(authScheme);
         return this;
     }
 
@@ -32,8 +38,24 @@ public class ApiBase {
         BasicAuthScheme authScheme = new BasicAuthScheme();
         authScheme.setUserName(user);
         authScheme.setPassword(password);
-        specBuilder.setAuth(authScheme);
+        set_auth_scheme(authScheme);
 
+        return this;
+    }
+
+    public ApiBase set_oauth2_token_and_json_body (final String token, final String json_body) {
+        OAuth2Scheme authScheme = new OAuth2Scheme();
+        authScheme.setAccessToken(token);
+        return set_auth_scheme(authScheme).set_content_type(ContentType.JSON).set_body(json_body);
+    }
+
+    public ApiBase set_content_type(final ContentType content_type) {
+        specBuilder.setContentType(content_type.toString());
+        return this;
+    }
+
+    public ApiBase set_body(final String body) {
+        specBuilder.setBody(body);
         return this;
     }
 
@@ -54,8 +76,15 @@ public class ApiBase {
             requestSpecification = build_request_spec();
         }
 
-        if("GET".equals(method.toString()))
-            response = given().spec(requestSpecification).when().get(end_point.toString());
+        switch (method.toString()) {
+            case "GET":
+                response = requestSpecification.when().get(end_point.toString());
+                break;
+            case "POST":
+                //
+                response = requestSpecification.when().post(end_point.toString());
+                break;
+        }
 
         return response;
     }
