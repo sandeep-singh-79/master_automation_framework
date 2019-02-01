@@ -1,6 +1,7 @@
 package com.sandeep.base;
 
 import com.sandeep.config.FrameworkConfig;
+import com.sandeep.util.Ajax_JS_Load_Wait;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -21,6 +22,7 @@ public abstract class BasePageObject {
     protected WebDriver driver;
     protected WebDriverWait wait;
     protected AjaxElementLocatorFactory ajaxElementLocatorFactory;
+    protected Ajax_JS_Load_Wait wait_for_js;
 
     private Properties config;
 
@@ -34,6 +36,7 @@ public abstract class BasePageObject {
         wait = new WebDriverWait(driver, parseInt(config.getProperty("WEBDRIVERWAIT_TIMEOUT")),
                 parseInt(config.getProperty("WEBDRIVERWAIT_POLL")));
         ajaxElementLocatorFactory = new AjaxElementLocatorFactory(driver, parseInt(config.getProperty("LOCATOR_FACTORY_TIMEOUT")));
+        wait_for_js = new Ajax_JS_Load_Wait(driver, wait);
         setTimeouts();
 
         isLoaded();
@@ -65,7 +68,9 @@ public abstract class BasePageObject {
 
         // Wait until the unique element is visible in the browser and ready to use. This helps make sure the page is
         // loaded before the next step of the tests continue.
-        wait.until(ExpectedConditions.visibilityOfAllElements(uniqueElement));
+        if (wait_for_js.wait_for_ajax_to_finish()) {
+            wait.until(ExpectedConditions.visibilityOfAllElements(uniqueElement));
+        }
     }
 
     protected void enterText(WebElement txtfield, String text) {
