@@ -5,6 +5,7 @@ import com.sandeep.driver.WebDriverFactory;
 import com.sandeep.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.logging.LogType;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
@@ -26,6 +27,8 @@ public class ScreenshotListener extends TestListenerAdapter {
 
     private void take_screenshot (ITestResult iTestResult) {
         WebDriver driver = (WebDriver) iTestResult.getTestContext().getAttribute("driver");
+        capture_browser_logs(driver);
+
         try {
             Utils.take_screenshot(driver, iTestResult);
         } catch (NullPointerException e) {
@@ -37,5 +40,12 @@ public class ScreenshotListener extends TestListenerAdapter {
                     FrameworkConfig.getInstance().getConfigProperties().getProperty("DRIVERTYPE")));
             Utils.take_screenshot(driver, iTestResult);
         }
+    }
+
+    private void capture_browser_logs (WebDriver driver) {
+        // capture failure logs before screenshotting
+        log.error("*******************Browser Log*******************");
+        driver.manage().logs().get(LogType.BROWSER).forEach((entry) -> log.error(entry.getMessage()));
+        log.error("*************************************************");
     }
 }
