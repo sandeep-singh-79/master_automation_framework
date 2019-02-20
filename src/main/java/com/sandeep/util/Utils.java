@@ -62,4 +62,18 @@ public class Utils {
         if(!screenshotDir.exists()) screenshotDir.mkdirs();
         return screenshotDir;
     }
+    
+    public static <T extends BasePageObject> T get_instance(Class<T> clazz, WebDriver driver) {
+        T instance = null;
+        if (clazz != null) {
+            try {
+                instance = clazz.getConstructor(WebDriver.class).newInstance(driver);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error("Found an issue while creating instance of {}", clazz.toString());
+                log.error(e.getMessage());
+                log.error(Arrays.toString(e.getStackTrace()));
+            }
+        }
+        return instance;
+    }
 }
