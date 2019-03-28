@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Demo Test Suite" verbose="1" parallel="classes">
+    <test name="Functional - Login Test">
+        <classes>
+            <class name="com.sandeep.functional_tests.LoginTest"/>
+        </classes>
+    </test>
+</suite>

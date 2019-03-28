@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="BDD_Test_Suite" verbose="1">
+    <listeners>
+        <!--<listener class-name="RetryListener" />-->
+        <listener class-name="com.aventstack.extentreports.testng.listener.ExtentITestListenerAdapter"/>
+    </listeners>
+
+    <test name="Functional BDD Tests" parallel="methods" thread-count="5">
+        <classes>
+            <class name="com.sandeep.base.cucumber.RunCukesTests"/>
+        </classes>
+    </test>
+</suite>
