@@ -31,7 +31,8 @@ public abstract class BaseTestNGTest {
     }
 
     protected void loadApplication() {
-        driver.get(config.getProperty("url_dev"));
+        driver.get(config.getProperty(System.getProperty("env", "dev")
+                .equalsIgnoreCase("dev") ? "url_dev" : "url_qa"));
     }
 
     @AfterTest(alwaysRun=true)

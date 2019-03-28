@@ -35,7 +35,9 @@ public class RunCukesTests extends AbstractTestNGCucumberTests {
     @BeforeClass
     public void setup() {
         initialize_runner_elements();
-        String environment_url = launch_browser();
+        String environment_url = config.getProperty(System.getProperty("env", "dev")
+                .equalsIgnoreCase("dev") ? "url_dev" : "url_qa");
+        launch_browser();
         testContext.getScenarioContext().setContext("url", environment_url);
     }
 
@@ -58,11 +60,9 @@ public class RunCukesTests extends AbstractTestNGCucumberTests {
         browser = System.getProperty("browser", config.getProperty("BROWSER"));
     }
 
-    private String launch_browser () {
+    private void launch_browser () {
         log.info("Driver {} created for browser {}", driver_type.toUpperCase(), browser.toUpperCase());
         WebDriver driver = driverFactory.getDriver(driver_type);
         driver.manage().window().maximize();
-        return config.getProperty(System.getProperty("env", "dev")
-                                          .equalsIgnoreCase("dev")?"url_dev":"url_qa");
     }
 }
