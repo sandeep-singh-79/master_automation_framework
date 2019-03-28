@@ -14,7 +14,7 @@ import org.testng.annotations.DataProvider;
 import java.util.Properties;
 
 @CucumberOptions(
-        features = "src/main/resources/features",
+        features = "src/teste/resources/features",
         glue = {"com.sandeep.cucumber"},
         /*tags = {"@P1"},*/
         plugin = {
