@@ -126,7 +126,7 @@
                         <version>3.0.0-M3</version>
                         <configuration>
                             <systemPropertyVariables>
-                                <!-- need to provide user, userpass & cucumber.options for tags while calling maven -->
+                                <!-- need to provide cucumber.options for tags while calling maven -->
                                 <env>dev</env>
                                 <browser>chrome</browser>
                                 <driverType>local</driverType>
@@ -135,7 +135,7 @@
                             <argLine>-Xmx1024m</argLine>
                             <argLine>-XX:MaxPermSize=500M</argLine>
                             <suiteXmlFiles>
-                                <suiteXmlFile>src/test/resources/testng_suites.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/testng_functional.xml</suiteXmlFile>
                             </suiteXmlFiles>
                         </configuration>
                     </plugin>
@@ -164,7 +164,7 @@
                             <argLine>-Xmx1024m</argLine>
                             <argLine>-XX:MaxPermSize=500M</argLine>
                             <suiteXmlFiles>
-                                <suiteXmlFile>src/test/resources/testng_suites.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/testng_functional.xml</suiteXmlFile>
                             </suiteXmlFiles>
                         </configuration>
                     </plugin>
@@ -234,7 +234,7 @@
                             <argLine>-Xmx1024m</argLine>
                             <argLine>-XX:MaxPermSize=500M</argLine>
                             <suiteXmlFiles>
-                                <suiteXmlFile>src/test/resources/testng_functional_suite.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/testng_bdd_suite.xml</suiteXmlFile>
                             </suiteXmlFiles>
                         </configuration>
                     </plugin>
@@ -260,7 +260,7 @@
                             <argLine>-Xmx1024m</argLine>
                             <argLine>-XX:MaxPermSize=500M</argLine>
                             <suiteXmlFiles>
-                                <suiteXmlFile>./src/test/resources/testng_functional_suite.xml</suiteXmlFile>
+                                <suiteXmlFile>./src/test/resources/testng_bdd_suite.xml</suiteXmlFile>
                             </suiteXmlFiles>
                         </configuration>
                     </plugin>
