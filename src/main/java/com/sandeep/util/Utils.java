@@ -1,12 +1,6 @@
 package com.sandeep.util;
 
-import com.mckinsey.base.BasePageObject;
-import com.mckinsey.pages.cet.bik.Base_BIK_Page;
-import com.mckinsey.pages.cet.bik.budget.Base_NonMeal_NonGifts;
-import com.mckinsey.pages.cet.bik.budget.expense_field.IExpense_Fields;
-import com.mckinsey.pages.cet.bik.gifts_meals.Base_Meal_Gifts_Page;
-import com.mckinsey.pages.cet.bik.gifts_meals.components.Filters;
-import com.mckinsey.pages.cet.bik.grid_components.IExpense_Grid;
+import com.sandeep.base.BasePageObject;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -62,6 +56,20 @@ public class Utils {
         return screenshotFile;
     }
 
+    public static <T extends BasePageObject> T get_instance (Class <T> clazz, WebDriver driver) {
+        T instance = null;
+        if (clazz != null) {
+            try {
+                instance = clazz.getConstructor(WebDriver.class).newInstance(driver);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                log.error("Found an issue while creating instance of {}", clazz.getSimpleName());
+                log.error(e.getMessage());
+                log.error(Arrays.toString(e.getStackTrace()));
+            }
+        }
+        return instance;
+    }
+
     private static File create_screenshot_file (final String method_name, final File screenshot_dir) {
         return new File(String.format("%s/%s_%s.png", screenshot_dir.getPath(), method_name, Utils.getTimeStamp("dd-MM-yyyy_HH_mm_ss")));
     }
@@ -70,19 +78,5 @@ public class Utils {
         File screenshotDir = new File(directoryPath);
         if(!screenshotDir.exists()) screenshotDir.mkdirs();
         return screenshotDir;
-    }
-    
-    public static <T extends BasePageObject> T get_instance(Class<T> clazz, WebDriver driver) {
-        T instance = null;
-        if (clazz != null) {
-            try {
-                instance = clazz.getConstructor(WebDriver.class).newInstance(driver);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                log.error("Found an issue while creating instance of {}", clazz.toString());
-                log.error(e.getMessage());
-                log.error(Arrays.toString(e.getStackTrace()));
-            }
-        }
-        return instance;
     }
 }
