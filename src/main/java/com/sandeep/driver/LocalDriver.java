@@ -33,12 +33,19 @@ class LocalDriver extends Driver {
             if(browser.contains("chrome")) {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("disable-infobars");
+                options.addArguments("no-sandbox", "disable-dev-shm-usage", "disable-infobars", "incognito");
+                if (System.getProperty("headless", config.getProperty("headless")).equalsIgnoreCase("true")) {
+                    options.addArguments("window-size=1920, 1050", "headless");
+                }
                 //options.merge(sslError);
                 driver = new ChromeDriver(options);
             } else if(browser.contains("firefox") || browser.contains("ff")) {
-                WebDriverManager.firefoxdriver().setup();
+                WebDriverManager.firefoxdriver().version("0.23").setup();
                 FirefoxOptions options = new FirefoxOptions();
+                options.addArguments("-private");
+                if (System.getProperty("headless", config.getProperty("headless")).equalsIgnoreCase("true")) {
+                    options.addArguments("-width 1920", "-height 1080", "-headless");
+                }
                 //options.merge(sslError);
                 driver = new FirefoxDriver(options);
             } else if(System.getProperty("os.name").indexOf("win")==0 && (browser.contains("iexplore") || browser.contains("internet"))) {
