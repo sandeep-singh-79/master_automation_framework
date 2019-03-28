@@ -44,7 +44,7 @@ public abstract class BasePageObject {
 
     private void setTimeouts() {
         driver.manage().timeouts().implicitlyWait(parseInt(config.getProperty("IMPLICITWAIT_TIMEOUT")),
-                TimeUnit.MILLISECONDS);
+                TimeUnit.SECONDS);
         driver.manage().timeouts().pageLoadTimeout(parseInt(config.getProperty("PAGE_LOAD_TIMEOUT")),
                 TimeUnit.MILLISECONDS);
     }
@@ -57,7 +57,7 @@ public abstract class BasePageObject {
      */
     protected abstract By getUniqueElement();
 
-    protected void isLoaded() throws Error {
+    private void isLoaded () throws Error {
         //Define a list of WebElements that match the unique element locator for the page
         By uniqElement = getUniqueElement();
         List<WebElement> uniqueElement = driver.findElements(uniqElement);
