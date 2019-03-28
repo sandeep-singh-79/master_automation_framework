@@ -59,7 +59,7 @@ public final class WebDriverFactory implements Serializable, Cloneable {
             return tempDriver;
         });
 
-        return (driver!= null?driver.get():null);
+        return driver.get();
     }
 
     private WebDriver getLocalDriverInstance() {
@@ -91,6 +91,7 @@ public final class WebDriverFactory implements Serializable, Cloneable {
 
     public void closeDriver() {
         if(driver.get() != null) {
+            driver.get().close();
             driver.get().quit();
             driver = null;
         }
