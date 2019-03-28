@@ -1,4 +1,4 @@
-package com.sandeep.cucumber;
+package com.sandeep.base.cucumber;
 
 import com.sandeep.config.FrameworkConfig;
 import com.sandeep.cucumber.context.TestContext;

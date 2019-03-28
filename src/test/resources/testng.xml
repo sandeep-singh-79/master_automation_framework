@@ -10,7 +10,7 @@
     <test name="Functional - Login Test">
         <classes>
             <class name="com.sandeep.functional_tests.LoginTest"/>
-            <class name="com.sandeep.cucumber.RunCukesTests" />
+            <class name="com.sandeep.base.cucumber.RunCukesTests"/>
         </classes>
     </test>
 

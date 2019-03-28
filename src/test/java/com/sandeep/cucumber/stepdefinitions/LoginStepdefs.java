@@ -1,5 +1,6 @@
 package com.sandeep.cucumber.stepdefinitions;
 
+import com.sandeep.base.cucumber.BaseStepDefinition;
 import com.sandeep.cucumber.context.TestContext;
 import com.sandeep.cucumber.enums.Context;
 import com.sandeep.pages.ForgotPasswordPage;
@@ -14,7 +15,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-public class LoginStepdefs extends BaseStepDefinition{
+public class LoginStepdefs extends BaseStepDefinition {
     private LoginPage loginPage;
     private LoginErrorPage login_error_page;
     private ForgotPasswordPage forgot_password_page;

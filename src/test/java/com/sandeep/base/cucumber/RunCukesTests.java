@@ -1,4 +1,4 @@
-package com.sandeep.cucumber;
+package com.sandeep.base.cucumber;
 
 import com.sandeep.config.FrameworkConfig;
 import com.sandeep.cucumber.context.TestContext;
@@ -15,7 +15,7 @@ import java.util.Properties;
 
 @CucumberOptions(
         features = "src/teste/resources/features",
-        glue = {"com.sandeep.cucumber"},
+        glue = {"com.sandeep.cucumber", "com.sandeep.base.cucumber"},
         /*tags = {"@P1"},*/
         plugin = {
                 "pretty", "html:target/reports/cucumber",
