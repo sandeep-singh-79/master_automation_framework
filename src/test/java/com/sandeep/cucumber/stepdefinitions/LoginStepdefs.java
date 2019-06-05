@@ -2,10 +2,10 @@ package com.sandeep.cucumber.stepdefinitions;
 
 import com.sandeep.base.cucumber.BaseStepDefinition;
 import com.sandeep.cucumber.context.TestContext;
-import com.sandeep.cucumber.enums.Context;
 import com.sandeep.pages.ForgotPasswordPage;
 import com.sandeep.pages.LoginErrorPage;
 import com.sandeep.pages.LoginPage;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.cucumber.datatable.DataTable;
@@ -22,7 +22,11 @@ public class LoginStepdefs extends BaseStepDefinition {
 
     public LoginStepdefs (TestContext context) {
         super(context);
-        loginPage = (LoginPage) context.getScenarioContext().getContext(Context.PAGE_OBJECTS.LOGIN.toString());
+    }
+
+    @Given("^User is on the Signin Page$")
+    public void user_is_on_signin_page () {
+        this.retrieve_landing_page_object();
     }
 
     @When("^The user enters invalid credentials$")

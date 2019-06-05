@@ -7,17 +7,44 @@ import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 @Slf4j
 public final class WebDriverFactory implements Serializable, Cloneable {
     private static WebDriverFactory instance;
-    private WebDriver localDriverInstance, remoteDriverInstance;
-    private ThreadLocal<WebDriver> driver;
+    private static ThreadLocal <WebDriver> driver;
     private Properties config;
 
     // webdriver instantiation properties
     private String browser;
+
+    /*
+     * thanks to grasshopper7 for the below code on how to close all webdriver instances for parallel execution of
+     * cucumber-jvm scenarios
+     * grasshopper7 - https://github.com/grasshopper7/testngcuke4sharedwebdriver
+     */
+    //To quit the drivers and browsers at the end only.
+    private static List <WebDriver> storedDrivers = new ArrayList <>();
+
+    // adding a shutdown hook to close all browsers once the execution ends
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run () {
+                storedDrivers.stream().forEach(WebDriver::quit);
+            }
+        });
+    }
+
+    public void addDriver (WebDriver driver) {
+        storedDrivers.add(driver);
+    }
+
+    public void closeDriver () {
+        storedDrivers.remove(driver.get());
+        driver.remove();
+    }
 
     private WebDriverFactory() {
         config = FrameworkConfig.getInstance().getConfigProperties();
@@ -63,13 +90,13 @@ public final class WebDriverFactory implements Serializable, Cloneable {
     }
 
     private WebDriver getLocalDriverInstance() {
-        if (localDriverInstance == null) {
+        /*if (localDriverInstance == null) {
             synchronized (WebDriverFactory.class) {
                 if (localDriverInstance == null)
                     localDriverInstance = new LocalDriver(browser).createDriver();
             }
-        }
-        return localDriverInstance;
+        }*/
+        return new LocalDriver(browser).createDriver();
     }
 
     private WebDriver getRemoteDriverInstance() throws NoSuchDriverException {
@@ -78,23 +105,16 @@ public final class WebDriverFactory implements Serializable, Cloneable {
         String version = config.getProperty(System.getProperty("version"), "remote.version");
         Platform platform = Platform.fromString(config.getProperty(System.getProperty("platform"), "remote.platform")) ;
 
-        if (remoteDriverInstance == null) {
+        /*if (remoteDriverInstance == null) {
             synchronized (WebDriverFactory.class) {
                 if (remoteDriverInstance == null)
                     remoteDriverInstance = new RemoteDriver(browser, serverAddress, serverPort, platform, version)
                             .createDriver();
             }
-        }
+        }*/
 
-        return remoteDriverInstance;
-    }
-
-    public void closeDriver() {
-        if(driver.get() != null) {
-            driver.get().close();
-            driver.get().quit();
-            driver = null;
-        }
+        return new RemoteDriver(browser, serverAddress, serverPort, platform, version)
+                .createDriver();
     }
 
     @Override

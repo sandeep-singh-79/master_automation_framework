@@ -1,6 +1,7 @@
 Feature: Login Functionality
-  #Background:
-    #Given: User is on the Signin Page
+
+  Background:
+    Given: User is on the Signin Page
 
   Scenario: Verify user is shown a valid error message on entering invalid credentials
     When The user enters invalid credentials

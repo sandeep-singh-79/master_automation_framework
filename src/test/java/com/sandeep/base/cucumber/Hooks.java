@@ -1,9 +1,6 @@
 package com.sandeep.base.cucumber;
 
-import com.sandeep.config.FrameworkConfig;
 import com.sandeep.cucumber.context.TestContext;
-import com.sandeep.cucumber.enums.Context;
-import com.sandeep.pages.LoginPage;
 import com.sandeep.util.Utils;
 import cucumber.api.Result;
 import cucumber.api.Scenario;
@@ -18,27 +15,33 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import static org.testng.Assert.fail;
+
 @Slf4j
 public class Hooks {
     private TestContext testContext;
     private WebDriver driver;
+    private Properties config;
 
     public Hooks(TestContext context) {
         testContext = context;
-        Properties config = FrameworkConfig.getInstance().getConfigProperties();
-        driver = context.getWebDriverManager().getDriver(config.getProperty("DRIVERTYPE", "local"));
+        config = testContext.getConfig();
+        driver = context.getWebDriverManager().getDriver(System.getProperty("driverType", config.getProperty("DRIVERTYPE")));
+        context.getWebDriverManager().addDriver(driver);
     }
 
     @Before (order = 1)
     public void beforeScenario(Scenario scenario) {
         log.info("launching scenario {}...", scenario.getName());
-        navigate_to((String) testContext.getScenarioContext().getContext("url"));
+        navigate_to(System.getProperty("env", "dev").equals("dev") ? config.getProperty("url_dev") : config.getProperty("url_qa"));
     }
 
     @After(order = 1)
     public void afterScenario(Scenario scenario) {
         log.info("Scenario: {} completed with result: {}", scenario.getName(), scenario.getStatus());
-        if (scenario.isFailed()) {
+        driver.manage().deleteAllCookies();
+        if (scenario.isFailed() || scenario.getStatus().toString().equalsIgnoreCase("UNDEFINED")) {
+            fail();
             logError(scenario);
             log.error("*******************Browser Log*******************");
             driver.manage().logs().get(LogType.BROWSER).forEach((entry) -> log.error(entry.getMessage()));
@@ -59,10 +62,9 @@ public class Hooks {
     }
 
     private void navigate_to (String environment_url) {
+        // launch browser
         log.info("Loading URL: {}", environment_url);
         driver.navigate().to(environment_url);
-
-        LoginPage loginPage = new LoginPage(driver);
-        testContext.getScenarioContext().setContext(Context.PAGE_OBJECTS.LOGIN.toString(), loginPage);
+        driver.manage().window().maximize();
     }
 }
