@@ -1,10 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 <suite name="Integration_Test_Suite" verbose="1" preserve-order="true">
-    <listeners>
-        <!--<listener class-name="RetryListener" />-->
+    <!--<listeners>
+        &lt;!&ndash;<listener class-name="RetryListener" />&ndash;&gt;
         <listener class-name="com.aventstack.extentreports.testng.listener.ExtentITestListenerClassAdapter"/>
-    </listeners>
+    </listeners>-->
 
     <test name="API Tests" parallel="classes" thread-count="5">
         <classes>

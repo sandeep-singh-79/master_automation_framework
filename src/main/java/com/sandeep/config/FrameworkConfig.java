@@ -12,7 +12,7 @@ public class FrameworkConfig implements Cloneable, Serializable {
     private Properties frameworkProperties;
 
     private FrameworkConfig() {
-        frameworkProperties = new PropertyReader(new File(String
+        frameworkProperties = new PropertyFileReader(new File(String
                 .format("%s/src/main/resources/frameworkConfig.properties", System.getProperty("user.dir"))))
                 .getPropertyFile();
     }

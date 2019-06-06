@@ -74,7 +74,7 @@ public class Utils {
         return new File(String.format("%s/%s_%s.png", screenshot_dir.getPath(), method_name, Utils.getTimeStamp("dd-MM-yyyy_HH_mm_ss")));
     }
 
-    private static File createDirectory(String directoryPath) {
+    public static File createDirectory (String directoryPath) {
         File screenshotDir = new File(directoryPath);
         if(!screenshotDir.exists()) screenshotDir.mkdirs();
         return screenshotDir;

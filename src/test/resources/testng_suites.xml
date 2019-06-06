@@ -8,7 +8,7 @@
 
     <suite-files>
         <suite-file path="./testng_api_suite.xml"/>
+        <suite-file path="testng_functional_suite.xml"/>
         <suite-file path="testng_bdd_suite.xml"/>
-        <suite-file path="testng_functional.xml"></suite-file>
     </suite-files>
 </suite>

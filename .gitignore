@@ -113,8 +113,12 @@ buildNumber.properties
 .idea_modules/
 
 # ignore screenshots and screenshot folder
-/Screenshots/
+/[Ss]creenshots/
 
 ## ignore log files
 *.log
 /log/
+!/tools/build
+!/tools/contract_test
+!/tools/build/startup.sh
+/downloads

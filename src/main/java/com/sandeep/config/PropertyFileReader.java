@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Slf4j
-public class PropertyReader {
+public class PropertyFileReader {
     private Properties property;
 
-    public PropertyReader(File propertyFilePath) {
+    public PropertyFileReader (File propertyFilePath) {
         if(propertyFilePath.exists() && propertyFilePath.isFile()) {
             try {
                 property = new Properties();

@@ -1,6 +1,8 @@
 package com.sandeep.base.cucumber;
 
 import com.sandeep.cucumber.context.TestContext;
+import com.sandeep.cucumber.enums.Context;
+import com.sandeep.pages.GoogleHomePO;
 import com.sandeep.util.Utils;
 import cucumber.api.Result;
 import cucumber.api.Scenario;
@@ -66,5 +68,10 @@ public class Hooks {
         log.info("Loading URL: {}", environment_url);
         driver.navigate().to(environment_url);
         driver.manage().window().maximize();
+
+        // set the webdriver instance to the context object
+        testContext.getScenarioContext().setContext(Context.DRIVER.toString(), driver);
+        // set the landing page object in context object here
+        testContext.getScenarioContext().setContext(Context.PAGE_OBJECTS.GoogleHomePO.toString(), new GoogleHomePO(driver));
     }
 }

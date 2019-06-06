@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Demo Test Suite" verbose="1" parallel="classes">
+    <listeners>
+        <!--<listener class-name="RetryListener" />-->
+        <listener class-name="com.aventstack.extentreports.testng.listener.ExtentITestListenerAdapter"/>
+    </listeners>
+    <test name="Functional Tests">
+        <classes>
+            <class name="com.sandeep.functional_tests.GoogleSearchTest"/>
+        </classes>
+    </test>
+</suite>
