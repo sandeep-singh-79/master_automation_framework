@@ -9,6 +9,7 @@ import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
@@ -22,6 +23,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
+import static org.testng.Assert.fail;
 
 @Slf4j
 public abstract class BaseAPITest {
@@ -76,6 +80,17 @@ public abstract class BaseAPITest {
         return new ApiBase(base_url, base_port, end_point)
                 .set_request_headers(headers)
                 .set_content_type(contentType);
+    }
+
+    protected void log_exception (Throwable throwable) {
+        log.error(throwable.getMessage());
+        log.error(String.valueOf(throwable.getCause()));
+        stream(ExceptionUtils.getRootCauseStackTrace(throwable)).forEach(log::error);
+    }
+
+    protected void log_exception_and_fail (Throwable e) {
+        log_exception(e);
+        fail(e.getMessage());
     }
 
     protected List <Map <String, Object>> get_lst_nodes (Response response, String json_path) {
