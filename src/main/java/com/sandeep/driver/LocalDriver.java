@@ -10,11 +10,15 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 
+import java.util.Collections;
+
 @Slf4j
 class LocalDriver extends Driver {
-    LocalDriver() { super(); }
+    LocalDriver () {
+        super();
+    }
 
-    LocalDriver(String browser) {
+    LocalDriver (String browser) {
         this();
         this.browser = browser;
     }
@@ -33,14 +37,17 @@ class LocalDriver extends Driver {
             if(browser.contains("chrome")) {
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("no-sandbox", "disable-dev-shm-usage", "disable-infobars", "incognito");
+                options.addArguments("no-sandbox", "disable-dev-shm-usage"/*, "incognito"*/);
+                // added the experimental option to disable automation notification bar
+                options.setExperimentalOption("useAutomationExtension", false);
+                options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
                 if (System.getProperty("headless", config.getProperty("headless")).equalsIgnoreCase("true")) {
                     options.addArguments("window-size=1920, 1050", "headless");
                 }
                 //options.merge(sslError);
                 driver = new ChromeDriver(options);
             } else if(browser.contains("firefox") || browser.contains("ff")) {
-                WebDriverManager.firefoxdriver().version("0.23").setup();
+                WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions options = new FirefoxOptions();
                 options.addArguments("-private");
                 if (System.getProperty("headless", config.getProperty("headless")).equalsIgnoreCase("true")) {
