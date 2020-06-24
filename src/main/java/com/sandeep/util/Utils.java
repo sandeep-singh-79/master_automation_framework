@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Random;
 
 import static org.apache.commons.io.FileUtils.copyFile;
 
@@ -70,13 +71,17 @@ public class Utils {
         return instance;
     }
 
+    public static int get_random_index (final int min, final int max) {
+        return (new Random().nextInt(max - min + 1) + min) - 1;
+    }
+
     private static File create_screenshot_file (final String method_name, final File screenshot_dir) {
         return new File(String.format("%s/%s_%s.png", screenshot_dir.getPath(), method_name, Utils.getTimeStamp("dd-MM-yyyy_HH_mm_ss")));
     }
 
     public static File createDirectory (String directoryPath) {
         File screenshotDir = new File(directoryPath);
-        if(!screenshotDir.exists()) screenshotDir.mkdirs();
+        if (!screenshotDir.exists()) screenshotDir.mkdirs();
         return screenshotDir;
     }
 }

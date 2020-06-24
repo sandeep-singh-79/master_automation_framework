@@ -4,6 +4,7 @@ import com.sandeep.base.api.ApiBase;
 import com.sandeep.config.FrameworkConfig;
 import com.sandeep.config.PropertyFileReader;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -17,6 +18,8 @@ import org.testng.asserts.SoftAssert;
 import java.io.File;
 import java.lang.reflect.Parameter;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -34,13 +37,13 @@ public abstract class BaseAPITest {
     protected SoftAssert soft_assert = new SoftAssert();
 
     @BeforeClass
-    public void setup(){
+    public void setup () {
         apiBase = new ApiBase(config.getProperty("baseUrl"), Byte.valueOf(config.getProperty("basePort", "80")),
                 config.getProperty("basePath"));
     }
 
     @AfterClass
-    public static void cleanup() {
+    public static void cleanup () {
         RestAssured.reset();
     }
 
@@ -63,5 +66,21 @@ public abstract class BaseAPITest {
         Parameter[] params = test_result.getMethod().getConstructorOrMethod().getMethod().getParameters();
         log.info("Test {} with param(s) {} executed with result: {}", test_result.getMethod().getMethodName(),
                 Arrays.stream(params).map(Parameter::getName).collect(Collectors.toList()), test_status);
+    }
+
+    protected ApiBase init_api_base (final String base_url,
+                                     final byte base_port,
+                                     final String end_point,
+                                     final Headers headers,
+                                     final ContentType contentType) {
+        return new ApiBase(base_url, base_port, end_point)
+                .set_request_headers(headers)
+                .set_content_type(contentType);
+    }
+
+    protected List <Map <String, Object>> get_lst_nodes (Response response, String json_path) {
+        return response
+                .jsonPath()
+                .get(json_path);
     }
 }
