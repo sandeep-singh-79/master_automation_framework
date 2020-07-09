@@ -13,7 +13,7 @@ import java.util.Properties;
 
 @Slf4j
 public final class WebDriverFactory implements Serializable, Cloneable {
-    private static WebDriverFactory instance;
+    private static volatile WebDriverFactory instance;
     private static ThreadLocal <WebDriver> driver;
     private Properties config;
 
