@@ -12,8 +12,10 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 
-import java.util.Arrays;
 import java.util.Properties;
+
+import static com.sandeep.util.Utils.log_exception_and_fail;
+import static java.lang.String.format;
 
 @Slf4j
 @Listeners({ScreenshotListener.class})
@@ -43,12 +45,11 @@ public abstract class BaseTestNGTest {
     }
 
     private void initialize_landing_page (ITestContext testContext) {
-        // intialize landing page object to null
+        // initialize landing page object to null
         try {
             // initialize the object here
         } catch (Exception e) {
-            log.error("unable to navigate to Dashboard page due to {}", e.getMessage());
-            log.error(Arrays.toString(e.getStackTrace()));
+            log_exception_and_fail(format("unable to navigate to Dashboard page due to %s", e.getMessage()), e);
         }
 
         // set the landing page object to test context object
