@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class GoogleSearchPO extends BasePageObject {
-    @FindBy(css = "div[class='srg'] a > h3[class='LC20lb']")
+    @FindBy(css = "div.rc h3")
     private List <WebElement> searchResult;
 
     public int searchResultCount () {
@@ -31,6 +31,6 @@ public class GoogleSearchPO extends BasePageObject {
      */
     @Override
     protected By getUniqueElement () {
-        return By.cssSelector("div[class='srg'] a > h3");
+        return By.cssSelector("div.rc h3");
     }
 }

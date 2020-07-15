@@ -26,17 +26,17 @@ public abstract class BaseTestNGTest {
     protected Properties config;
 
     @BeforeTest(alwaysRun = true)
-    public void initTest(ITestContext testContext) {
+    public void initTest (ITestContext testContext) {
         // create a WebDriver instance on the basis of the settings
         // provided in framework config properties file
+        init_test_variables();
+        driver.manage().window().maximize();
+    }
+
+    private void init_test_variables () {
         config = FrameworkConfig.getInstance().getConfigProperties();
         driverFactory = WebDriverFactory.getInstance();
         driver = driverFactory.getDriver(System.getProperty("driverType", config.getProperty("DRIVERTYPE")));
-
-        driver.manage().window().maximize();
-        loadApplication(testContext);
-
-        testContext.setAttribute("driver", driver);
     }
 
     protected void loadApplication (ITestContext testContext) {
@@ -48,16 +48,20 @@ public abstract class BaseTestNGTest {
         // initialize landing page object to null
         try {
             // initialize the object here
+            if (driver != null)
+                testContext.setAttribute(Context.PAGE_OBJECTS.GoogleHomePO.toString(), new GoogleHomePO(driver));
+            else throw new NullPointerException("WebDriver object was not initialized!!!");
+        } catch (NullPointerException npe) {
+            init_test_variables();
+            loadApplication(testContext);
+            testContext.setAttribute(Context.PAGE_OBJECTS.GoogleHomePO.toString(), new GoogleHomePO(driver));
         } catch (Exception e) {
             log_exception_and_fail(format("unable to navigate to Dashboard page due to %s", e.getMessage()), e);
         }
-
-        // set the landing page object to test context object
-        testContext.setAttribute(Context.PAGE_OBJECTS.GoogleHomePO.toString(), new GoogleHomePO(driver));
     }
 
-    @AfterTest(alwaysRun=true)
-    public void teardownTest() {
+    @AfterTest(alwaysRun = true)
+    public void teardownTest () {
         driverFactory.closeDriver();
     }
 }

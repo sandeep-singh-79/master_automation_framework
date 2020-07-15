@@ -141,7 +141,7 @@
                             <argLine>-Xmx1024m</argLine>
                             <argLine>-XX:MaxPermSize=512m</argLine>
                             <suiteXmlFiles>
-                                <suiteXmlFile>src/test/resources/testng_suites.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/testng_functional_suite.xml</suiteXmlFile>
                             </suiteXmlFiles>
                         </configuration>
                     </plugin>
@@ -170,7 +170,7 @@
                             <argLine>-Xmx1024m</argLine>
                             <argLine>-XX:MaxPermSize=512m</argLine>
                             <suiteXmlFiles>
-                                <suiteXmlFile>src/test/resources/testng_suites.xml</suiteXmlFile>
+                                <suiteXmlFile>src/test/resources/testng_functional_suite.xml</suiteXmlFile>
                             </suiteXmlFiles>
                         </configuration>
                     </plugin>

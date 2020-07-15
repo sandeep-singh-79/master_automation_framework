@@ -37,7 +37,7 @@ public class GoogleSearchTest extends BaseTestNGTest {
     @Test(dataProvider = "provide_search_terms")
     public void Google_Search_For_Search_Term_T (String search_term) {
         gsPO = ghPO.performSearch(search_term);
-        byte search_result_count = (byte) gsPO.searchResultCount();
+        int search_result_count = gsPO.searchResultCount();
         log.info("\nCount results for {} search is {}.\n", search_term, search_result_count);
         assertTrue(search_result_count > 1);
     }

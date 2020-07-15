@@ -25,6 +25,7 @@ public class GoogleHomePO extends BasePageObject {
     }
 
     public GoogleSearchPO performSearch (String search) {
+        searchTextBox.clear();
         searchTextBox.sendKeys(search);
         if (is_page_ajax_loaded())
             searchTextBox.sendKeys(Keys.ENTER);
@@ -40,6 +41,6 @@ public class GoogleHomePO extends BasePageObject {
      */
     @Override
     protected By getUniqueElement () {
-        return By.xpath("//div[@aria-label='Search by voice']/span");
+        return By.xpath("//div[@aria-label='Search by voice']");
     }
 }
