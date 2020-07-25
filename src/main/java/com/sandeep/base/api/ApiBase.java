@@ -4,9 +4,7 @@ import io.restassured.RestAssured;
 import io.restassured.authentication.BasicAuthScheme;
 import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
-import io.restassured.http.Headers;
-import io.restassured.http.Method;
+import io.restassured.http.*;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
@@ -106,6 +104,43 @@ public class ApiBase {
     public ApiBase set_query_params (final Map <String, ?> params) {
         requestSpecification.params(params);
         return this;
+    }
+
+    public ApiBase set_cookie (Cookie cookie) {
+        specBuilder.addCookie(cookie);
+        return this;
+    }
+
+    public ApiBase set_cookies (Cookies cookies) {
+        specBuilder.addCookies(cookies);
+        return this;
+    }
+
+    public static ApiBase init_api_base (final String base_url,
+                                         final byte base_port,
+                                         final String end_point,
+                                         final Headers headers,
+                                         final ContentType contentType,
+                                         final Cookie cookie) {
+        return init_api_base(base_url, base_port, end_point, headers, contentType)
+                .set_cookie(cookie);
+    }
+
+    public static ApiBase init_api_base (final String base_url,
+                                         final byte base_port,
+                                         final String end_point,
+                                         final Headers headers,
+                                         final ContentType contentType) {
+        return init_api_base(base_url, base_port, end_point, headers)
+                .set_content_type(contentType);
+    }
+
+    public static ApiBase init_api_base (final String base_url,
+                                         final byte base_port,
+                                         final String end_point,
+                                         final Headers headers) {
+        return new ApiBase(base_url, base_port, end_point)
+                .set_request_headers(headers);
     }
 
     public Response get_response (final Method method, final String end_point) throws NullPointerException {
