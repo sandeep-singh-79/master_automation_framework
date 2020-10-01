@@ -10,4 +10,7 @@ updates:
     schedule:
       interval: "monthly"
     ignore:
-      - dependency-name: "testng"
+      - dependency-name: "org.testng:testng"
+      - dependency-name: "io.cucumber:cucumber-java"
+      - dependency-name: "io.cucumber:cucumber-testng"
+      - dependency-name: "io.cucumber:cucumber-picocontainer
