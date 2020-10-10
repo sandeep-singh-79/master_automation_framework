@@ -1,0 +1,20 @@
+name: Docker Selenium CI
+
+on:
+  push:
+    branches: [ $default-branch ]
+  pull_request:
+    branches: [ $default-branch ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --file DockerfileBrowser
+    - name: Run the tests in the Docker image
+      run: docker run -it -v .:/usr/tests/ -w /usr/tests
