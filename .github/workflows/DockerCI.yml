@@ -7,14 +7,12 @@ on:
     branches: [ $default-branch ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file DockerfileBrowser
+      run: docker build . --file DockerfileBrowser --tag browserdockerci:$(date +%s)
     - name: Run the tests in the Docker image
-      run: docker run -it -v .:/usr/tests/ -w /usr/tests
+      run: docker run -it -v .:/usr/tests/src -w /usr/tests/src browserdockerci:$(date +%s) mvn clean test -DdriverType=local -DBROWSER=chrome -Dheadless=true
