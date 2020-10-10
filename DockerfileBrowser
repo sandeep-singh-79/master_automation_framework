@@ -1,5 +1,7 @@
 FROM maven:3.6.3-jdk-11
 
+ARG options = -DdriverType=local -DBROWSER=chrome -Dheadless=true
+
 # Google Chrome
 
 ARG CHROME_VERSION=86.0.4240.75-1
@@ -22,3 +24,5 @@ RUN apt-get update -qqy \
 	&& rm /tmp/firefox.tar.bz2 \
 	&& mv /opt/firefox /opt/firefox-$FIREFOX_VERSION \
 	&& ln -s /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox
+
+ENTRYPOINT mvn options clean test
