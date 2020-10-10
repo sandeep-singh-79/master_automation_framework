@@ -31,6 +31,9 @@ public abstract class BaseTestNGTest {
         // provided in framework config properties file
         init_test_variables();
         driver.manage().window().maximize();
+
+        loadApplication(testContext);
+        testContext.setAttribute("driver", driver);
     }
 
     private void init_test_variables () {
