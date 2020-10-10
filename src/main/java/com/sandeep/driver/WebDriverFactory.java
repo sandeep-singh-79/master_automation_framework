@@ -44,6 +44,8 @@ public final class WebDriverFactory implements Serializable, Cloneable {
     public void closeDriver () {
         storedDrivers.remove(driver.get());
         driver.remove();
+
+        if (driver.get() != null) driver.get().quit();
     }
 
     private WebDriverFactory() {
