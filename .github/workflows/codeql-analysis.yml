@@ -73,11 +73,6 @@ jobs:
   build:
     name: Build Project
     runs-on: ubuntu-latest
-    container:
-      image: maven:3.6.3-adoptopenjdk-11
-    env:
-      CHROME_VERSION=86.0.4240.75-1
-      FIREFOX_VERSION=81.0.1
 
     steps:
       - name: Checkout repository
@@ -92,24 +87,9 @@ jobs:
       - run: git checkout HEAD^2
         if: ${{ github.event_name == 'pull_request' }}
 
-      - name: Install Chrome
-        run: wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-          && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-          && apt-get update -qqy \
-          && apt-get -qqy install google-chrome-stable=$CHROME_VERSION \
-          && rm /etc/apt/sources.list.d/google-chrome.list \
-          && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-          && sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome
+      - name: Build the Docker image
+        run: docker build . --file DockerfileBrowser --tag browserdockerci:$(date +%s)
+        id: build_docker_image
 
-      - name: Install Firefox
-        run: apt-get update -qqy \
-          && apt-get -qqy install libgtk-3-0 libdbus-glib-1-2 libxt6 \
-          && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-          && wget -q -O /tmp/firefox.tar.bz2 https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 \
-          && tar xjf /tmp/firefox.tar.bz2 -C /opt \
-          && rm /tmp/firefox.tar.bz2 \
-          && mv /opt/firefox /opt/firefox-$FIREFOX_VERSION \
-          && ln -s /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox
-
-    -name: Run the tests
-      run: mvn clean test -DdriverType=local -DBROWSER=chrome -Dheadless=true
+      - name: Run the tests in the Docker image
+        run: docker run -t -v .:/usr/tests/src -w /usr/tests/src ${{steps.build_docker_image.outputs.output}} mvn clean test -DdriverType=local -DBROWSER=chrome -Dheadless=true
