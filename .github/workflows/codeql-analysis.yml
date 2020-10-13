@@ -7,12 +7,16 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [master]
+    branches: [ master ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [master]
+    branches: [ master ]
   schedule:
     - cron: '0 3 * * 5'
+
+env:
+  # TODO: Change variable to your image's name.
+  IMAGE_NAME: browserdockerci:$(date +%s)
 
 jobs:
   analyze:
@@ -88,8 +92,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
 
       - name: Build the Docker image
-        run: docker build . --file DockerfileBrowser --tag browserdockerci:$(date +%s)
-        id: build_docker_image
+        run: docker build . --file DockerfileBrowser --tag $IMAGE_NAME
 
       - name: Run the tests in the Docker image
-        run: docker run -t -v .:/usr/tests/src -w /usr/tests/src ${{steps.build_docker_image.outputs.output}} mvn clean test -DdriverType=local -DBROWSER=chrome -Dheadless=true
+        run: docker run -t -v .:/usr/tests/src -w /usr/tests/src $IMAGE_NAME mvn clean test -DdriverType=local -DBROWSER=chrome -Dheadless=true
