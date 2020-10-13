@@ -11,8 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        # We must fetch at least the immediate parents so that if this is
+        # a pull request then we can checkout the head.
+        fetch-depth: 2
+
+    # If this run was triggered by a pull request event, then checkout
+    # the head of the pull request instead of the merge commit.
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
+    
     - name: Build the Docker image
       run: docker build . --file DockerfileBrowser --tag browserdockerci:$(date +%s)
+    
     - name: Run the tests in the Docker image
       run: docker run -it -v .:/usr/tests/src -w /usr/tests/src browserdockerci:$(date +%s) mvn clean test -DdriverType=local -DBROWSER=chrome -Dheadless=true
