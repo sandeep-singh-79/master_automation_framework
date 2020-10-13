@@ -89,6 +89,7 @@ jobs:
 
     - name: Build the Docker image
       run: docker build . --file DockerfileBrowser --tag browserdockerci:$(date +%s)
+      id: build_docker_image
 
     - name: Run the tests in the Docker image
-      run: docker run -t -v .:/usr/tests/src -w /usr/tests/src browserdockerci:$(date +%s) mvn clean test -DdriverType=local -DBROWSER=chrome -Dheadless=true
+      run: docker run -t -v .:/usr/tests/src -w /usr/tests/src ${{steps.build_docker_image.outputs.output}} mvn clean test -DdriverType=local -DBROWSER=chrome -Dheadless=true
