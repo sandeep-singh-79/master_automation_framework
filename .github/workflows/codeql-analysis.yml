@@ -75,9 +75,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: maven:3.6.3-adoptopenjdk-11
-    env:
-      CHROME_VERSION=86.0.4240.75-1
-      FIREFOX_VERSION=81.0.1
 
     steps:
       - name: Checkout repository
@@ -93,6 +90,8 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
 
       - name: Install Chrome
+        env:
+          CHROME_VERSION=86.0.4240.75-1
         run: wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
           && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
           && apt-get update -qqy \
@@ -102,6 +101,8 @@ jobs:
           && sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome
 
       - name: Install Firefox
+        env:
+          FIREFOX_VERSION=81.0.1
         run: apt-get update -qqy \
           && apt-get -qqy install libgtk-3-0 libdbus-glib-1-2 libxt6 \
           && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
