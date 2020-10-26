@@ -48,7 +48,7 @@ public class Hooks {
             log.error("*******************Browser Log*******************");
             driver.manage().logs().get(LogType.BROWSER).forEach((entry) -> log.error(entry.getMessage()));
             log.error("*************************************************");
-            Utils.take_screenshot(driver, scenario.getName());
+            scenario.embed(Utils.toByteArray(Utils.take_screenshot(driver, scenario.getName())), scenario.getName());
         }
     }
 

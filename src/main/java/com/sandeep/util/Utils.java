@@ -7,7 +7,10 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -47,7 +50,7 @@ public class Utils {
         try {
             TakesScreenshot screenshot = (TakesScreenshot) driver;
             screenshotFile = create_screenshot_file(method_name,
-                    createDirectory(String.format("%s/Screenshots/%s", System.getProperty("user.dir"), getDate())));
+                    createDirectory(String.format("%s/Screenshots", System.getProperty("user.dir"))));
             copyFile(screenshot.getScreenshotAs(OutputType.FILE), screenshotFile);
         } catch (Exception ioe) {
             log.error("Encountered issue while creating screenshot for method/scenario {}", method_name);
@@ -58,15 +61,30 @@ public class Utils {
         return screenshotFile;
     }
 
-    public static <T extends BasePageObject> T get_instance (Class <T> clazz, WebDriver driver) {
+    public static byte[] toByteArray(File file) {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try (FileInputStream fis = new FileInputStream(file)) {
+            for (int readNum; (readNum = fis.read(buf)) != -1; ) {
+                //Writes to this byte array output stream
+                bos.write(buf, 0, readNum);
+                System.out.println("read " + readNum + " bytes,");
+            }
+        } catch (IOException ex) {
+            log_exception(ex.getMessage(), ex);
+        }
+
+        return bos.toByteArray();
+    }
+
+    public static <T extends BasePageObject> T get_instance(Class<T> clazz, WebDriver driver) {
         T instance = null;
         if (clazz != null) {
             try {
                 instance = clazz.getConstructor(WebDriver.class).newInstance(driver);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                 log.error("Found an issue while creating instance of {}", clazz.getSimpleName());
-                log.error(e.getMessage());
-                log.error(Arrays.toString(e.getStackTrace()));
+                log_exception(e.getMessage(), e);
             }
         }
         return instance;
