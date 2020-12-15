@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  runTests:
+    image: 3-openjdk-11
+    build:
+      context: .
+      dockerfile: DockerfileBrowser
+    ports:
+      - 4444:4444
+    volumes:
+      - .:/usr/src/automation-framework
+    working_dir: /usr/src/automation-framework
+    container_name: sandeep-singh-79/master_automation_framework
+    entrypoint: mvn clean test -DBROWSER=chrome -DdriverType=local -Dheadless=true
