@@ -4,10 +4,10 @@ import com.sandeep.cucumber.context.TestContext;
 import com.sandeep.cucumber.enums.Context;
 import com.sandeep.pages.GoogleHomePO;
 import com.sandeep.util.Utils;
-import cucumber.api.Result;
-import cucumber.api.Scenario;
-import cucumber.api.java.After;
-import cucumber.api.java.Before;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import io.cucumber.plugin.event.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.openqa.selenium.WebDriver;
@@ -48,7 +48,7 @@ public class Hooks {
             log.error("*******************Browser Log*******************");
             driver.manage().logs().get(LogType.BROWSER).forEach((entry) -> log.error(entry.getMessage()));
             log.error("*************************************************");
-            scenario.embed(Utils.toByteArray(Utils.take_screenshot(driver, scenario.getName())), scenario.getName());
+            scenario.attach(Utils.toByteArray(Utils.take_screenshot(driver, scenario.getName())), "image/png", scenario.getName());
         }
     }
 
