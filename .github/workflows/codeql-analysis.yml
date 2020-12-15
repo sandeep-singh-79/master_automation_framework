@@ -14,10 +14,6 @@ on:
   schedule:
     - cron: '0 3 * * 5'
 
-env:
-  # TODO: Change variable to your image's name.
-  IMAGE_NAME: browserdockerci:$(date)
-
 jobs:
   analyze:
     name: Analyze
@@ -93,12 +89,12 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "name=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
       - name: Echo date env variable
-        run: echo ${{steps.date.outputs.date}}
+        run: echo $NOW
 
       - name: Build the Docker image
-        run: docker build . --file DockerfileBrowser --tag browserdockerci:${{steps.date.outputs.date}}
+        run: docker build . --file DockerfileBrowser --tag browserdockerci:$NOW
 
       - name: Run the tests in the Docker image
-        run: docker run -t -v .:/usr/tests/src -w /usr/tests/src browserdockerci:${{steps.date.outputs.date}} mvn clean test -Pdev_bdd
+        run: docker run -t -v .:/usr/tests/src -w /usr/tests/src browserdockerci:$NOW mvn clean test -Pdev_bdd
