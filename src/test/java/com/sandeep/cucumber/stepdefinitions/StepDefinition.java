@@ -3,8 +3,8 @@ package com.sandeep.cucumber.stepdefinitions;
 import com.sandeep.base.cucumber.BaseStepDefinition;
 import com.sandeep.cucumber.context.TestContext;
 import com.sandeep.pages.GoogleSearchPO;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
