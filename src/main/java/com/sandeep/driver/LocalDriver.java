@@ -13,18 +13,18 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 import java.util.Collections;
 
 @Slf4j
-class LocalDriver extends Driver {
-    LocalDriver () {
-        super();
-    }
+class LocalDriver implements IDriver {
+    private WebDriver driver;
+    private final String browser;
+    private final String headless;
 
-    LocalDriver (String browser) {
-        this();
+    LocalDriver(final String browser, final String headless) {
         this.browser = browser;
+        this.headless = headless;
     }
 
     /**
-     * @see Driver#createDriver()
+     * @see IDriver#createDriver()
      * Creates an instance of a browser webdriver based on
      * the browser name stored in the framework config file.
      */
@@ -41,7 +41,7 @@ class LocalDriver extends Driver {
                 // added the experimental option to disable automation notification bar
                 options.setExperimentalOption("useAutomationExtension", false);
                 options.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
-                if (System.getProperty("headless", config.getProperty("headless")).equalsIgnoreCase("true")) {
+                if (headless.equalsIgnoreCase("true")) {
                     options.addArguments("window-size=1920, 1050", "headless");
                 }
                 //options.merge(sslError);
@@ -50,7 +50,7 @@ class LocalDriver extends Driver {
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions options = new FirefoxOptions();
                 options.addArguments("-private");
-                if (System.getProperty("headless", config.getProperty("headless")).equalsIgnoreCase("true")) {
+                if (headless.equalsIgnoreCase("true")) {
                     options.addArguments("-width 1920", "-height 1080", "-headless");
                 }
                 //options.merge(sslError);
