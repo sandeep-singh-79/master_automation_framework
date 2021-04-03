@@ -12,14 +12,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 @Slf4j
-class RemoteDriver extends Driver {
-    RemoteDriver() {
-        super();
-    }
+class RemoteDriver implements IDriver {
+    private WebDriver driver;
+    private String browser;
+    private Platform platform;
+    private String version;
+    private String serverAddress;
+    private int serverPort;
 
     RemoteDriver(String browser, String serverAddress, int serverPort, Platform platform, String version) {
-        this();
-
         this.browser = browser;
         this.serverAddress = serverAddress;
         this.serverPort = serverPort;
