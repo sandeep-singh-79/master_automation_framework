@@ -14,11 +14,11 @@ import java.util.Properties;
 @Slf4j
 public final class WebDriverFactory implements Serializable, Cloneable {
     private static volatile WebDriverFactory instance;
-    private static ThreadLocal <WebDriver> driver;
-    private Properties config;
+    private static ThreadLocal<WebDriver> driver;
+    private final Properties config;
 
     // webdriver instantiation properties
-    private String browser;
+    private final String browser;
 
     /*
      * thanks to grasshopper7 for the below code on how to close all webdriver instances for parallel execution of
@@ -26,15 +26,11 @@ public final class WebDriverFactory implements Serializable, Cloneable {
      * grasshopper7 - https://github.com/grasshopper7/testngcuke4sharedwebdriver
      */
     //To quit the drivers and browsers at the end only.
-    private static List <WebDriver> storedDrivers = new ArrayList <>();
+    private static final List<WebDriver> storedDrivers = new ArrayList<>();
 
     // adding a shutdown hook to close all browsers once the execution ends
     static {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run () {
-                storedDrivers.stream().forEach(WebDriver::quit);
-            }
-        });
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> storedDrivers.forEach(WebDriver::quit)));
     }
 
     public void addDriver (WebDriver driver) {
@@ -98,7 +94,8 @@ public final class WebDriverFactory implements Serializable, Cloneable {
                     localDriverInstance = new LocalDriver(browser).createDriver();
             }
         }*/
-        return new LocalDriver(browser).createDriver();
+        String headless = System.getProperty("headless", config.getProperty("headless"));
+        return new LocalDriver(browser, headless).createDriver();
     }
 
     private WebDriver getRemoteDriverInstance() throws NoSuchDriverException {
