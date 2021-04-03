@@ -12,7 +12,7 @@ public class GoogleHomePO extends BasePageObject {
     @FindBy(css = "input[name='q']")
     private WebElement searchTextBox;
 
-    @FindBy(css = "div[class='FPdoLc VlcLAe'] input[name='btnK']")
+    @FindBy(css = "input[name='btnK']")
     private WebElement searchButton;
 
     @FindBy(css = "img[alt='Google']")
