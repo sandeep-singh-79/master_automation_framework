@@ -1,5 +1,7 @@
 # Java Automation Framework
 
+[![CodeQL](https://github.com/sandeep-singh-79/master_automation_framework/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/sandeep-singh-79/master_automation_framework/actions/workflows/codeql-analysis.yml)
+
 The framework is a TestNG based test automation framework. It provides the user with the facility to easily create/write both Selenium & RestAssured driven API tests.
 
 If the user wants to create a new Selenium/UI test then s(he) needs to just inherit from the BaseTestNGTest class.
