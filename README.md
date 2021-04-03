@@ -32,9 +32,13 @@ In case your app requires a username and password to execute the test cases (par
 `mvn clean test -P dev_bdd -Duser=<username> -Duserpass=<password>`
 
 The various supported profiles are:
+
 1. dev_bdd - for BDD tests on dev environment
 2. qa_bdd - for BDD tests on qa environment
 3. dev_int - for API integration tests on dev environment
 4. qa_int - for API integration tests on qa environment
 5. dev_functional - for full suite execution on dev environment
 6. qa_functional - for full suite execution on qa environment.
+
+**PS**: You might encounter a TestNG issue related to loading of DTDs from unsecured URLs. To get around this, you will
+need to pass the JVM argument *-Dtestng.dtd.http=true* as part of the maven run command.
