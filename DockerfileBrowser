@@ -23,4 +23,4 @@ RUN apt-get update -qqy \
 	&& mv /opt/firefox /opt/firefox-$FIREFOX_VERSION \
 	&& ln -s /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox
 
-CMD ["mvn", "-B"]
+CMD ["mvn"]
