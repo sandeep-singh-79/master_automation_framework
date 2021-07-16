@@ -1,7 +1,7 @@
 # Java Automation Framework
 
 [![CodeQL](https://github.com/sandeep-singh-79/master_automation_framework/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/sandeep-singh-79/master_automation_framework/actions/workflows/codeql-analysis.yml)
-[![maven docker CI](https://github.com/sandeep-singh-79/master_automation_framework/actions/workflows/DockerCI.yml/badge.svg)]
+[![maven docker CI](https://github.com/sandeep-singh-79/master_automation_framework/actions/workflows/DockerCI.yml/badge.svg)](https://github.com/sandeep-singh-79/master_automation_framework/actions/workflows/DockerCI.yml)
 
 The framework is a TestNG based test automation framework. It provides the user with the facility to easily create/write both Selenium & RestAssured driven API tests.
 
