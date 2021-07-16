@@ -149,6 +149,7 @@
                             <suiteXmlFiles>
                                 <suiteXmlFile>src/test/resources/testng_functional_suite.xml</suiteXmlFile>
                             </suiteXmlFiles>
+                            <useSystemClassLoader>false</useSystemClassLoader>
                         </configuration>
                     </plugin>
                 </plugins>
@@ -166,6 +167,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${surefire.version}</version>
                         <configuration>
+                            <useSystemClassLoader>false</useSystemClassLoader>
                             <systemPropertyVariables>
                                 <!-- need to provide user, userpass & cucumber.options for tags while calling maven -->
                                 <env>${env.qa}</env>
@@ -192,6 +194,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${surefire.version}</version>
                         <configuration>
+                            <useSystemClassLoader>false</useSystemClassLoader>
                             <systemPropertyVariables>
                                 <env>${env.dev}</env>
                             </systemPropertyVariables>
@@ -214,6 +217,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${surefire.version}</version>
                         <configuration>
+                            <useSystemClassLoader>false</useSystemClassLoader>
                             <systemPropertyVariables>
                                 <env>${env.qa}</env>
                             </systemPropertyVariables>
@@ -245,6 +249,7 @@
                                     <value>3</value>
                                 </property>
                             </properties>-->
+                            <useSystemClassLoader>false</useSystemClassLoader>
                             <systemPropertyVariables>
                                 <!-- need to provide user, userpass & cucumber.options for tags while calling maven -->
                                 <env>${env.dev}</env>
@@ -271,6 +276,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <version>${surefire.version}</version>
                         <configuration>
+                            <useSystemClassLoader>false</useSystemClassLoader>
                             <!--<parallel>methods</parallel>
                             <threadCount>3</threadCount>
                             <perCoreThreadCount>false</perCoreThreadCount>
