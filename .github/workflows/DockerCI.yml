@@ -10,6 +10,8 @@ jobs:
   build:
     name: Build Project
     runs-on: ubuntu-latest
+    env:
+      MAVEN_OPTS: "-Dmaven.repo.local=${{ github.workspace }}/repository"
 
     steps:
       - name: Checkout repository
@@ -32,6 +34,15 @@ jobs:
 
       - name: Build the Docker image
         run: docker build . --file DockerfileBrowser --tag browserdockerci:$NOW --build-arg CHROME_VERSION=92.0.4515.107-1
+
+      - name: Cache Maven repository
+        uses: actions/cache@v2
+        with:
+          path: "${{ github.workspace }}/repository"
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+            ${{ runner.os }}-
 
       - name: Run the tests in the Docker image
         run: docker run -t -v $(pwd):/usr/tests/src -w /usr/tests/src browserdockerci:$NOW mvn clean test -Pdev_bdd -Dtestng.dtd.http=true
