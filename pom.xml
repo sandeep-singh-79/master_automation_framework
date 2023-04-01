@@ -21,7 +21,7 @@
         <browser>chrome</browser>
         <headless>true</headless>
         <driverType>local</driverType>
-        <surefire.version>3.0.0-M7</surefire.version>
+        <surefire.version>3.0.0</surefire.version>
         <java.version>1.8</java.version>
     </properties>
 
