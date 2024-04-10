@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get current date
         id: date
@@ -22,7 +22,7 @@ jobs:
         run: echo $NOW
 
       - name: Build the Docker image
-        run: docker build . --file DockerfileBrowser --tag browserdockerci:$NOW --build-arg CHROME_VERSION=108.0.5359.124-1
+        run: docker build . --file DockerfileBrowser --tag browserdockerci:$NOW --build-arg CHROME_VERSION=123.0.6312.107-1
 
       - name: Run the tests in the Docker image
         run: docker run -t -v $(pwd):/usr/tests/src -w /usr/tests/src browserdockerci:$NOW mvn clean test -Pdev_bdd -Dtestng.dtd.http=true

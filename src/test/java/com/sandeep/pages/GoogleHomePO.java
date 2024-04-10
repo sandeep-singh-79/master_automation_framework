@@ -9,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class GoogleHomePO extends BasePageObject {
-    @FindBy(css = "input[name='q']")
+    @FindBy(css = "textarea[name='q']")
     private WebElement searchTextBox;
 
     @FindBy(css = "input[name='btnK']")
