@@ -1,26 +1,45 @@
-FROM maven:3.8.1-jdk-11
+FROM maven:3.9.9-eclipse-temurin-21
 
-# Google Chrome
+# Define build arguments for browser versions
+ARG CHROME_VERSION=133.0.6943.98
+ARG FIREFOX_VERSION=122.0
+# Allow controlling Xvfb from command line
+ARG USE_XVFB=true
 
-ARG CHROME_VERSION=87.0.4280.141-1
-RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list \
-    && apt-get update -qqy \
-    && apt-get -qqy install google-chrome-stable \
-    && rm /etc/apt/sources.list.d/google-chrome.list \
-    && rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-    && sed -i 's/"$HERE\/chrome"/"$HERE\/chrome" --no-sandbox/g' /opt/google/chrome/google-chrome
+# Install dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget curl unzip bzip2 tar bash xvfb \
+    libappindicator3-1 libasound2t64 \
+    at-spi2-core dbus libnspr4 \
+    libnss3 xdg-utils \
+    vulkan-tools mesa-utils \
+    libharfbuzz0b libfreetype6 fonts-freefont-ttf && \
+    rm -rf /var/lib/apt/lists/*
 
-# Firefox
+# Install Chrome for Testing (dynamic version)
+RUN wget -q -O /tmp/chrome-linux64.zip "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip" && \
+    unzip /tmp/chrome-linux64.zip -d /usr/local/bin/ && \
+    mv /usr/local/bin/chrome-linux64 /usr/local/bin/google-chrome && \
+    ln -s /usr/local/bin/google-chrome/chrome /usr/bin/google-chrome && \
+    chmod +x /usr/bin/google-chrome && \
+    rm /tmp/chrome-linux64.zip
 
-ARG FIREFOX_VERSION=81.0.1
-RUN apt-get update -qqy \
-	&& apt-get -qqy install libgtk-3-0 libdbus-glib-1-2 libxt6 \
-	&& rm -rf /var/lib/apt/lists/* /var/cache/apt/* \
-	&& wget -q -O /tmp/firefox.tar.bz2 https://download-installer.cdn.mozilla.net/pub/firefox/releases/$FIREFOX_VERSION/linux-x86_64/en-US/firefox-$FIREFOX_VERSION.tar.bz2 \
-	&& tar xjf /tmp/firefox.tar.bz2 -C /opt \
-	&& rm /tmp/firefox.tar.bz2 \
-	&& mv /opt/firefox /opt/firefox-$FIREFOX_VERSION \
-	&& ln -s /opt/firefox-$FIREFOX_VERSION/firefox /usr/bin/firefox
+# Install Firefox (dynamic version)
+RUN wget -q -O /tmp/firefox.tar.bz2 "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2" && \
+    tar xjf /tmp/firefox.tar.bz2 -C /opt && \
+    rm /tmp/firefox.tar.bz2 && \
+    mv /opt/firefox /opt/firefox-${FIREFOX_VERSION} && \
+    ln -s /opt/firefox-${FIREFOX_VERSION}/firefox /usr/bin/firefox && \
+    chmod +x /usr/bin/firefox
 
-CMD ["mvn"]
+# Set browser environment variables
+ENV CHROME_BIN="/usr/bin/google-chrome"
+ENV FIREFOX_BIN="/usr/bin/firefox"
+# Default Xvfb display
+ENV DISPLAY=:99
+
+# Define entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

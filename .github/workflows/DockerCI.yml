@@ -18,11 +18,20 @@ jobs:
       - name: Get current date
         id: date
         run: echo "NOW=$(date +'%Y-%m-%dT%H_%M_%S')" >> $GITHUB_ENV
+
       - name: Echo date variable
         run: echo $NOW
 
+      # Cache Docker layers (docker build cache)
+      - name: Cache Docker image layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-docker-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-docker-
+
       - name: Build the Docker image
-        run: docker build . --file DockerfileBrowser --tag browserdockerci:$NOW --build-arg CHROME_VERSION=123.0.6312.107-1
+        run: docker build . --file DockerfileBrowser --tag browserdockerci:$NOW --build-arg CHROME_VERSION=133.0.6943.98
 
       - name: Run the tests in the Docker image
-        run: docker run -t -v $(pwd):/usr/tests/src -w /usr/tests/src browserdockerci:$NOW mvn clean test -Pdev_bdd -Dtestng.dtd.http=true
+        run: docker run -t -v $(pwd):/usr/tests/src -w /usr/tests/src -e USE_XVFB=false browserdockerci:$NOW clean test -Pdev_bdd -Dtestng.dtd.http=true
