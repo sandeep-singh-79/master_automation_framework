@@ -14,7 +14,7 @@
         <wdm.version>6.1.0</wdm.version>
         <slf4j.version>2.0.16</slf4j.version>
         <restassured.version>5.5.0</restassured.version>
-        <cucumber.version>7.20.1</cucumber.version>
+        <cucumber.version>7.21.1</cucumber.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env.dev>dev</env.dev>
         <env.qa>qa</env.qa>
