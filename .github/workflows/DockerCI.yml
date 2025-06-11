@@ -31,7 +31,7 @@ jobs:
           restore-keys: ${{ runner.os }}-docker-
 
       - name: Build the Docker image
-        run: docker build . --file DockerfileBrowser --tag browserdockerci:$NOW --build-arg CHROME_VERSION=133.0.6943.98
+        run: docker build . --file DockerfileBrowser --tag browserdockerci:$NOW --build-arg CHROME_VERSION=137.0.7151.70
 
       - name: Run the tests in the Docker image
         run: docker run -t -v $(pwd):/usr/tests/src -w /usr/tests/src -e USE_XVFB=false browserdockerci:$NOW clean test -Pdev_bdd -Dtestng.dtd.http=true
