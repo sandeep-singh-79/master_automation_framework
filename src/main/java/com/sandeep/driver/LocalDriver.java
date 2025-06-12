@@ -49,7 +49,8 @@ class LocalDriver implements IDriver {
                 options.addArguments("no-sandbox", "disable-dev-shm-usage", "--disable-gpu", "--remote-debugging-pipe"/*, "incognito"*/);
                 options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL", "performance", "ALL"));
                 if (headless.equalsIgnoreCase("true")) {
-                    options.addArguments("window-size=1920, 1050", "headless");
+                    options.addArguments("--headless=new",                // Use the modern headless mode (Chrome 109+)
+                        "--window-size=1920,1050");     // Avoid space in argument value);
                 }
                 //options.merge(sslError);
                 driver = new ChromeDriver(options);
