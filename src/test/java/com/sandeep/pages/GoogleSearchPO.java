@@ -31,6 +31,6 @@ public class GoogleSearchPO extends BasePageObject {
      */
     @Override
     protected By getUniqueElement () {
-        return By.xpath("//div[contains(text(), 'Tools')]");
+        return By.cssSelector("div#search");
     }
 }

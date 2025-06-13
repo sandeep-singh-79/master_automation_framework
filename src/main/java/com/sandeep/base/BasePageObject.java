@@ -70,8 +70,12 @@ public abstract class BasePageObject {
         List<WebElement> uniqueElement = driver.findElements(uniqElement);
 
         // Assert that the unique element is present in the DOM
-        Assert.assertTrue((uniqueElement.size() > 0),
-                String.format("Unique Element %s not found for %s", uniqElement.toString(), this.getClass().getSimpleName()));
+        // Log DOM info if element is missing
+        if (uniqueElement.isEmpty()) {
+            logLoadFailureDetails();  // <-- call diagnostic hook before failing
+            Assert.fail(String.format("❌ Unique Element %s not found for %s",
+                uniqElement.toString(), this.getClass().getSimpleName()));
+        }
 
         // Wait until the unique element is visible in the browser and ready to use. This helps make sure the page is
         // loaded before the next step of the tests continue.
@@ -86,5 +90,18 @@ public abstract class BasePageObject {
 
     public WebPageAction get_page_action () {
         return page_action;
+    }
+
+    protected void logLoadFailureDetails() {
+        try {
+            System.err.println("❌ Page load failure in: " + this.getClass().getSimpleName());
+            System.err.println("Title: " + driver.getTitle());
+            System.err.println("URL: " + driver.getCurrentUrl());
+            String dom = driver.getPageSource();
+            System.err.println("Page contains 'captcha'? " + dom.toLowerCase().contains("captcha"));
+            System.err.println("Partial DOM snapshot:\n" + dom.substring(0, Math.min(500, dom.length())));
+        } catch (Exception e) {
+            System.err.println("⚠️ Failed to log page diagnostics: " + e.getMessage());
+        }
     }
 }
