@@ -12,7 +12,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 
-import java.util.Collections;
+import java.io.File;
 import java.util.Map;
 
 @Slf4j
@@ -26,6 +26,11 @@ class LocalDriver implements IDriver {
         this.headless = headless;
     }
 
+    private boolean isRunningInDocker() {
+        return new File("/.dockerenv").exists();
+    }
+
+
     /**
      * @see IDriver#createDriver()
      * Creates an instance of a browser webdriver based on
@@ -38,25 +43,64 @@ class LocalDriver implements IDriver {
 
         if (driver == null) {
             if(browser.contains("chrome")) {
-                WebDriverManager.chromedriver().setup();
+                String chromeDriverVersion = System.getProperty("CHROMEDRIVER_VERSION",
+                    System.getenv().getOrDefault("CHROMEDRIVER_VERSION", "137.0.7151.70"));
+
+
+                if (isRunningInDocker() && chromeDriverVersion != null) {
+                    WebDriverManager.chromedriver()
+                        .driverVersion(chromeDriverVersion)
+                        .avoidBrowserDetection()
+                        .setup();
+                } else {
+                    WebDriverManager.chromedriver().setup(); // auto-resolve for local
+                }
+
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("--disable-blink-features=AutomationControlled");
+
+                options.addArguments("--disable-blink-features=AutomationControlled",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--disable-gpu",
+                    "--remote-debugging-pipe",
+                    "--disable-extensions",
+                    "--disable-software-rasterizer"/*, "incognito"*/);
+
                 options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
-                options.setExperimentalOption("useAutomationExtension", false);
                 options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
                                          "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36");
-//                options.addArguments("user-data-dir=/tmp/profile");
-                options.addArguments("no-sandbox", "disable-dev-shm-usage", "--disable-gpu", "--remote-debugging-pipe"/*, "incognito"*/);
+
                 options.setCapability("goog:loggingPrefs", Map.of("browser", "ALL", "performance", "ALL"));
+
                 if (headless.equalsIgnoreCase("true")) {
-                    options.addArguments("--headless=new",                // Use the modern headless mode (Chrome 109+)
+                    options.addArguments("--headless",
                         "--window-size=1920,1050");     // Avoid space in argument value);
                 }
+
                 //options.merge(sslError);
-                driver = new ChromeDriver(options);
-                ((JavascriptExecutor) driver).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
+                System.setProperty("webdriver.chrome.verboseLogging", "true");
+                System.setProperty("webdriver.chrome.logfile", "chromedriver.log");
+
+                try {
+                    driver = new ChromeDriver(options);
+                    ((JavascriptExecutor) driver).executeScript("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})");
+                } catch (Exception e) {
+                    log.error("Failed to initialize ChromeDriver", e);
+                    driver = null;
+                }
             } else if(browser.contains("firefox") || browser.contains("ff")) {
-                WebDriverManager.firefoxdriver().setup();
+                String firefoxVersion = System.getProperty("FIREFOX_VERSION",
+                    System.getenv().getOrDefault("FIREFOX_VERSION", "139.0.4"));
+
+                if (isRunningInDocker() && firefoxVersion != null) {
+                    WebDriverManager.firefoxdriver()
+                        .driverVersion(firefoxVersion)
+                        .avoidBrowserDetection()
+                        .setup();
+                } else {
+                    WebDriverManager.firefoxdriver().setup(); // auto-resolve for local
+                }
+
                 FirefoxOptions options = new FirefoxOptions();
                 FirefoxProfile profile = new FirefoxProfile();
                 profile.setPreference("dom.webdriver.enabled", false);
@@ -83,6 +127,10 @@ class LocalDriver implements IDriver {
                 //options.merge(sslError);
                 driver = new InternetExplorerDriver(options);
             }
+        }
+
+        if (driver == null) {
+            throw new IllegalStateException("WebDriver instance could not be initialized for browser: " + browser);
         }
 
         return driver;
