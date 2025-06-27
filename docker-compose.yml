@@ -1,0 +1,21 @@
+services:
+  browser-tests:
+    build:
+      context: .
+      dockerfile: DockerfileBrowser
+      args:
+        CHROME_VERSION: 138.0.7204.49
+        CHROMEDRIVER_VERSION: 138.0.7204.49
+        FIREFOX_VERSION: 139.0.4
+        GECKODRIVER_VERSION: 0.36.0
+    container_name: browser-test-runner
+    environment:
+      - USE_XVFB=false
+      - headless=true
+    command: ["clean", "test"]
+    volumes:
+      - .:/project
+      - ~/.m2:/root/.m2  # ✅ Persistent Maven dependency cache
+    working_dir: /project
+    tty: true
+    shm_size: 2g
